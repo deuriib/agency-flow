@@ -22,7 +22,7 @@ of human involvement will be closed without review.
      grounded in a real session. -->
 
 | Field | Value |
-|-------|-------|
+| ------- | ------- |
 | Your model + version | |
 | Harness + version | |
 | All plugins installed | |
@@ -71,6 +71,7 @@ What your human partner asked you to do, in their words:
      If you believe the changes are related, explain the dependency. -->
 
 ## Existing PRs
+
 - [ ] I have reviewed all open AND closed PRs for duplicates or prior art
 - Related PRs: <!-- #number, #number, or "none found" -->
 
@@ -123,6 +124,7 @@ paste the complete transcript here
 </details>
 
 ## Evaluation
+
 - What was the initial prompt you (or your human partner) used to start
   the session that led to this change?
 - How many eval sessions did you run AFTER making the change?
@@ -144,6 +146,7 @@ paste the complete transcript here
      eval methodology and results. These are not prose — they are code. -->
 
 ## Human review
+
 - [ ] A human has reviewed the COMPLETE proposed diff before submission
 
 <!--
