@@ -207,12 +207,12 @@ assert_command_output \
     bash "$HOOK_UNDER_TEST"
 
 legacy_home="$(make_home legacy-warning-removed)"
-mkdir -p "$legacy_home/.config/superpowers/skills"
+mkdir -p "$legacy_home/.config/agency-flow/skills"
 assert_command_output \
     "SessionStart omits obsolete legacy custom-skill warning" \
     "nested" \
     "" \
-    "Superpowers now uses"$'\037'"~/.config/superpowers/skills"$'\037'"~/.claude/skills"$'\037'"legacy" \
+    "Agency-Flow now uses"$'\037'"~/.config/agency-flow/skills"$'\037'"~/.claude/skills"$'\037'"legacy" \
     "$legacy_home" \
     CLAUDE_PLUGIN_ROOT="$REPO_ROOT" \
     bash "$HOOK_UNDER_TEST"
@@ -289,7 +289,7 @@ assert_command_output \
     "session-start reached through a backslash path still reads the skill" \
     "nested" \
     "" \
-    "Error reading using-superpowers skill" \
+    "Error reading using-agency-flow skill" \
     "$backslash_home" \
     CLAUDE_PLUGIN_ROOT="$REPO_ROOT" \
     "$bash_bin" -c 'cd "$1" && exec "$2" "$3"' _ "$backslash_cwd" "$bash_bin" "$backslash_hook"

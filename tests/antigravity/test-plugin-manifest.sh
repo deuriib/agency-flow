@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Validate the native Antigravity plugin: the Marketplace manifest, the skill
-# description agy relies on to bootstrap using-superpowers, and the repo layout
+# description agy relies on to bootstrap using-agency-flow, and the repo layout
 # agy depends on. CI-safe; when `agy` is on PATH, also runs `agy plugin validate`.
 set -euo pipefail
 
@@ -32,8 +32,8 @@ for field in ["name", "description", "displayName", "logo",
     if not manifest.get(field):
         fail(f"manifest field {field!r} is missing or empty")
 
-if manifest["name"] != "superpowers":
-    fail(f"name must be 'superpowers', got {manifest['name']!r}")
+if manifest["name"] != "agency-flow":
+    fail(f"name must be 'agency-flow', got {manifest['name']!r}")
 if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", manifest["name"]):
     fail("name is not kebab-case")
 
@@ -75,13 +75,13 @@ if not any(entry.get("path") == ".antigravity-plugin/plugin.json"
            for entry in version_config.get("files", [])):
     fail(".version-bump.json does not register .antigravity-plugin/plugin.json")
 
-# --- Bootstrap: agy lists each skill's description, and using-superpowers'
+# --- Bootstrap: agy lists each skill's description, and using-agency-flow's
 # description is what gets the model to load it at the start of a session.
-skill_md = (root / "skills" / "using-superpowers" / "SKILL.md").read_text(encoding="utf-8")
+skill_md = (root / "skills" / "using-agency-flow" / "SKILL.md").read_text(encoding="utf-8")
 frontmatter = re.match(r"---\n(.*?)\n---\n", skill_md, re.DOTALL)
 description = frontmatter and re.search(r"^description:(.*)$", frontmatter.group(1), re.MULTILINE)
 if not description or "Use when starting any conversation" not in description.group(1):
-    fail("using-superpowers description no longer says 'Use when starting any "
+    fail("using-agency-flow description no longer says 'Use when starting any "
          "conversation'; Antigravity relies on it to bootstrap")
 
 # --- Layout agy depends on -------------------------------------------------
