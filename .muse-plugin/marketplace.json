@@ -1,19 +1,19 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "agency-flow-dev",
+  "description": "Development marketplace for Agency-Flow sequential 5+2 phase methodology and skills framework",
   "owner": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "Deuri Vasquez",
+    "email": "deuriib@gmail.com"
   },
   "plugins": [
     {
-      "name": "superpowers",
-      "description": "Core skills library for Muse: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "7.0.1",
+      "name": "agency-flow",
+      "description": "Agency-Flow sequential 5+2 phase methodology and process stewardship for coding agents",
+      "version": "1.0.0",
       "source": "./",
       "author": {
-        "name": "Jesse Vincent",
-        "email": "jesse@fsck.com"
+        "name": "Deuri Vasquez",
+        "email": "deuriib@gmail.com"
       }
     }
   ]

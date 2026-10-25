@@ -1,6 +1,6 @@
-name: superpowers
-version: 7.0.1
-description: Superpowers skills and workflow bootstrap for Hermes Agent
-author: obra
+name: agency-flow
+version: 1.0.0
+description: Agency-Flow sequential 5+2 phase methodology and skills framework for Hermes Agent
+author: Deuri Vasquez
 provides_hooks:
   - pre_llm_call
