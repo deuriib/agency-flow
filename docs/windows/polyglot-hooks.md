@@ -7,6 +7,7 @@ Claude Code plugins need hooks that work on Windows, macOS, and Linux. This docu
 ## The Problem
 
 Claude Code runs hook commands through a shell:
+
 - **macOS/Linux**: bash or sh
 - **Windows with Git Bash installed**: Git Bash
 - **Windows without Git Bash**: PowerShell (older versions used CMD.exe)
@@ -104,7 +105,7 @@ afterward.
 ### Key design decisions
 
 | Decision | Why |
-|----------|-----|
+| ---------- | ----- |
 | Extensionless scripts | Prevents Claude Code's Windows `.sh`-auto-prepend from interfering with the dispatcher command |
 | No `-l` (login shell) | Not needed; hook scripts should be self-contained and not depend on login-shell PATH setup |
 | No `cygpath` | Bash receives the Windows path directly and handles it correctly; `cygpath` was needed by the old `-c "..."` invocation pattern, not by direct exec |
@@ -115,11 +116,13 @@ afterward.
 Your hook logic goes in the extensionless script file. A few portable patterns:
 
 ### Do
+
 - Use pure bash builtins when possible
 - Use `$(command)` instead of backticks
 - Quote all variable expansions: `"$VAR"`
 
 ### Avoid
+
 - Relying on PATH-dependent tools without fallbacks (the hook runs without `-l`, so login-shell PATH is not set)
 - Giving scripts a `.sh` extension — this triggers Claude Code's Windows auto-prepend
 

@@ -19,7 +19,7 @@ requested or discussed.
 
 ## Human-authored summary (required, under 200 words)
 <!-- A human writes this section, in their own words: which tool they
-     work in and what they want Superpowers to do there. If an agent is
+     work in and what they want Agency-Flow to do there. If an agent is
      filing, that means your human partner, not you. -->
 
 ## Which IDE or platform?
@@ -30,7 +30,7 @@ requested or discussed.
      integrations typically work with this tool. -->
 
 ## Have you tried manual installation?
-<!-- Many tools work with Superpowers through manual setup even without
+<!-- Many tools work with Agency-Flow through manual setup even without
      official support. Did you try? What happened? -->
 
 ## Environment (required)

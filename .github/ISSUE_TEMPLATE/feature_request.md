@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Propose a change or improvement to Superpowers
+about: Propose a change or improvement to Agency-Flow
 labels: enhancement
 ---
 
@@ -20,7 +20,7 @@ progress, and some were intentionally declined.
 
 ## Human-authored summary (required, under 200 words)
 <!-- A human writes this section, in their own words: what they were
-     trying to do and what they wished Superpowers did instead. If an
+     trying to do and what they wished Agency-Flow did instead. If an
      agent is filing, that means your human partner, not you. -->
 
 ## What problem does this solve?
@@ -36,7 +36,7 @@ progress, and some were intentionally declined.
 <!-- What other approaches could solve the same problem? Why is your
      proposal better? -->
 
-## Is this appropriate for core Superpowers?
+## Is this appropriate for core Agency-Flow?
 <!-- Would this benefit someone working on a completely different kind
      of project? If this is specific to your domain, workflow, or a
      third-party tool, it may belong as its own plugin instead. -->
@@ -48,7 +48,7 @@ progress, and some were intentionally declined.
 
 | Field | Value |
 |-------|-------|
-| Superpowers version | |
+| Agency-Flow version | |
 | Harness (Claude Code, Cursor, etc.) | |
 | Harness version | |
 | Your model + version | |

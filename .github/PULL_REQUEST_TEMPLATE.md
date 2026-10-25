@@ -49,7 +49,7 @@ What your human partner asked you to do, in their words:
 <!-- 1-3 sentences. What, not why — the "why" belongs above. -->
 
 ## Is this change appropriate for the core library?
-<!-- Superpowers core contains general-purpose skills and infrastructure
+<!-- Agency-Flow core contains general-purpose skills and infrastructure
      that benefit all users. Ask yourself:
 
      - Would this be useful to someone working on a completely different
@@ -89,7 +89,7 @@ What your human partner asked you to do, in their words:
      runner), you MUST include a session transcript proving the
      integration actually works.
 
-     A real integration loads the `using-superpowers` bootstrap at session
+     A real integration loads the `using-agency-flow` bootstrap at session
      start. The bootstrap is what causes skills to auto-trigger. Without
      it, the skills are dead weight — present on disk but never invoked
      at the right moments.
@@ -133,7 +133,7 @@ paste the complete transcript here
 
 ## Rigor
 
-- [ ] If this is a skills change: I used `superpowers:writing-skills` and
+- [ ] If this is a skills change: I used `agency-flow:writing-skills` and
       completed adversarial pressure testing (paste results below)
 - [ ] This change was tested adversarially, not just on the happy path
 - [ ] I did not modify carefully-tuned content (Red Flags table,
