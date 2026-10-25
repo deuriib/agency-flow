@@ -15,3 +15,16 @@ Before opening a PR against this repo, you MUST:
 2. Ensure both Domain gates and Process gates are signed `PASS`.
 3. Verify verifier independence in Phase 4 (VERIFY).
 4. Disclose your model, harness, and authoring environment.
+
+## Verification & Test Commands
+
+- **OpenCode Plugin Tests:** `bash tests/opencode/run-tests.sh`
+- **Shell Script Linting:** `bash scripts/lint-shell.sh` (or `bash scripts/lint-shell.sh --all`)
+- **Other Test Suites:** Check subdirectories under `tests/` for specific plugin test runners (e.g., `tests/antigravity/run-tests.sh`, `tests/claude-code/run-skill-tests.sh`).
+
+## Key Architecture & Layout
+
+- **5+2 Phases & Artifacts:** `docs/agency-flow/<slug>/` (Research, Frame, Propose, Build, Verify, Ship, Measure).
+- **Skills:** `skills/` (Modular agent skills including `using-agency-flow`, `agency-workflow`, etc.).
+- **Plugins & Extensions:** `.opencode/plugins/`, `.pi/`, `.codex-plugin/`, `.devin-plugin/`, `.cursor-plugin/`, `.muse-plugin/`.
+- **Hooks:** `hooks/` (Session start and environment hooks).
