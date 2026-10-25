@@ -1,32 +1,29 @@
 {
-  "name": "superpowers",
-  "version": "7.0.1",
-  "description": "An agentic skills framework & software development methodology that works: planning, TDD, debugging, and collaboration workflows.",
+  "name": "agency-flow",
+  "version": "1.0.0",
+  "description": "Agency-Flow sequential 5+2 phase methodology and skills framework for coding agents.",
   "author": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com",
-    "url": "https://github.com/obra"
+    "name": "Deuri Vasquez",
+    "email": "deuriib@gmail.com",
+    "url": "https://github.com/deuriib"
   },
-  "homepage": "https://github.com/obra/superpowers",
-  "repository": "https://github.com/obra/superpowers",
+  "homepage": "https://github.com/deuriib/agency-flow",
+  "repository": "https://github.com/deuriib/agency-flow",
   "license": "MIT",
   "keywords": [
-    "brainstorming",
-    "subagent-driven-development",
+    "agency-flow",
+    "workflow",
+    "process-steward",
     "skills",
-    "planning",
-    "tdd",
-    "debugging",
-    "code-review",
-    "workflow"
+    "governance"
   ],
   "skills": "./skills/",
   "hooks": {},
   "interface": {
-    "displayName": "Superpowers",
-    "shortDescription": "Planning, TDD, debugging, and delivery workflows for coding agents",
-    "longDescription": "Use Superpowers to guide agent work through brainstorming, implementation planning, test-driven development, systematic debugging, parallel execution, code review, and finish-the-branch workflows.",
-    "developerName": "Jesse Vincent",
+    "displayName": "Agency-Flow",
+    "shortDescription": "Sequential 5+2 phase methodology and process stewardship for coding agents",
+    "longDescription": "Use Agency-Flow to guide agent work through research, framing, proposing, building, verifying, shipping, and measuring phases with the two-gate model.",
+    "developerName": "Deuri Vasquez",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
@@ -34,13 +31,13 @@
       "Write"
     ],
     "defaultPrompt": [
-      "I've got an idea for something I'd like to build.",
-      "Let's add a feature to this project."
+      "Let's initiate a new project using Agency-Flow.",
+      "Help me frame a new feature or campaign."
     ],
-    "websiteURL": "https://github.com/obra/superpowers",
+    "websiteURL": "https://github.com/deuriib/agency-flow",
     "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
-    "brandColor": "#F59E0B",
+    "brandColor": "#3B82F6",
     "composerIcon": "./assets/superpowers-small.svg",
     "logo": "./assets/app-icon.png",
     "screenshots": []

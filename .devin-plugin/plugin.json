@@ -1,22 +1,19 @@
 {
-  "name": "superpowers",
-  "version": "7.0.1",
-  "description": "An agentic skills framework & software development methodology that works: planning, TDD, debugging, and collaboration workflows.",
+  "name": "agency-flow",
+  "version": "1.0.0",
+  "description": "Agency-Flow 5+2 sequential phase workflow and skills library: two-gate model, process stewardship, and structured releases",
   "author": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "Deuri Vasquez",
+    "email": "deuriib@gmail.com"
   },
-  "homepage": "https://github.com/obra/superpowers",
-  "repository": "https://github.com/obra/superpowers",
+  "homepage": "https://github.com/deuriib/agency-flow",
+  "repository": "https://github.com/deuriib/agency-flow",
   "license": "MIT",
   "keywords": [
-    "brainstorming",
-    "subagent-driven-development",
+    "agency-flow",
+    "workflow",
+    "process-steward",
     "skills",
-    "planning",
-    "tdd",
-    "debugging",
-    "code-review",
-    "workflow"
+    "governance"
   ]
 }

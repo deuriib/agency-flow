@@ -1,20 +1,19 @@
 {
-  "name": "superpowers",
-  "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "7.0.1",
+  "name": "agency-flow",
+  "description": "Agency-Flow sequential 5+2 phase methodology and process stewardship for Claude Code",
+  "version": "1.0.0",
   "author": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "Deuri Vasquez",
+    "email": "deuriib@gmail.com"
   },
-  "homepage": "https://github.com/obra/superpowers",
-  "repository": "https://github.com/obra/superpowers",
+  "homepage": "https://github.com/deuriib/agency-flow",
+  "repository": "https://github.com/deuriib/agency-flow",
   "license": "MIT",
   "keywords": [
+    "agency-flow",
+    "workflow",
+    "process-steward",
     "skills",
-    "tdd",
-    "debugging",
-    "collaboration",
-    "best-practices",
-    "workflows"
+    "governance"
   ]
 }

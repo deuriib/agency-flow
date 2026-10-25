@@ -1,11 +1,11 @@
 {
-  "name": "superpowers-dev",
+  "name": "agency-flow-dev",
   "interface": {
-    "displayName": "Superpowers Dev"
+    "displayName": "Agency-Flow Dev"
   },
   "plugins": [
     {
-      "name": "superpowers",
+      "name": "agency-flow",
       "source": {
         "source": "url",
         "url": "./"

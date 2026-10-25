@@ -1,20 +1,24 @@
 {
-  "name": "superpowers",
-  "version": "7.0.1",
-  "description": "Superpowers skills and runtime bootstrap for coding agents",
+  "name": "agency-flow",
+  "version": "1.0.0",
+  "description": "Agency-Flow 5+2 sequential phase workflow and skills for agents",
   "type": "module",
-  "main": ".opencode/plugins/superpowers.js",
+  "main": ".opencode/plugins/agency-flow.js",
+  "author": "Deuri Vasquez <deuriib@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deuriib/agency-flow.git"
+  },
   "keywords": [
-    "pi-package",
+    "agency-flow",
+    "workflow",
+    "process-steward",
     "skills",
-    "tdd",
-    "debugging",
-    "collaboration",
-    "workflow"
+    "governance"
   ],
   "pi": {
     "extensions": [
-      "./.pi/extensions/superpowers.ts"
+      "./.pi/extensions/agency-flow.ts"
     ],
     "skills": [
       "./skills"

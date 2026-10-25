@@ -1,19 +1,19 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "agency-flow-dev",
+  "description": "Development marketplace for Agency-Flow skills library",
   "owner": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "Deuri Vasquez",
+    "email": "deuriib@gmail.com"
   },
   "plugins": [
     {
-      "name": "superpowers",
-      "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "7.0.1",
+      "name": "agency-flow",
+      "description": "Agency-Flow sequential 5+2 phase methodology and process stewardship for Claude Code",
+      "version": "1.0.0",
       "source": "./",
       "author": {
-        "name": "Jesse Vincent",
-        "email": "jesse@fsck.com"
+        "name": "Deuri Vasquez",
+        "email": "deuriib@gmail.com"
       }
     }
   ]
