@@ -1,2 +1,2 @@
-@./skills/using-superpowers/SKILL.md
-@./skills/using-superpowers/references/gemini-tools.md
+@./skills/using-agency-flow/SKILL.md
+@./skills/using-agency-flow/references/gemini-tools.md
