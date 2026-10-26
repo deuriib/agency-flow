@@ -3,7 +3,6 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-const EXTREMELY_IMPORTANT_MARKER = "<EXTREMELY_IMPORTANT>";
 const BOOTSTRAP_MARKER = "agency-flow:using-agency-flow bootstrap for pi";
 
 const extensionDir = dirname(fileURLToPath(import.meta.url));
@@ -12,6 +11,12 @@ const skillsDir = resolve(packageRoot, "skills");
 const bootstrapSkillPath = resolve(skillsDir, "using-agency-flow", "SKILL.md");
 
 let cachedBootstrap: string | null | undefined;
+
+type TextBlock = { type: string; text?: string };
+type MessageContent = string | TextBlock[] | undefined;
+interface MessageLike {
+	content?: MessageContent;
+}
 
 export default function agencyFlowPiExtension(pi: ExtensionAPI) {
 	let injectBootstrap = true;
@@ -89,20 +94,32 @@ function stripFrontmatter(content: string): string {
 	return match ? match[2] : content;
 }
 
-function messageContainsBootstrap(message: { content?: Array<{ type: string; text?: string }> }): boolean {
-	if (!message.content) return false;
-	return message.content.some(
-		(block) => block.type === "text" && block.text && block.text.includes(BOOTSTRAP_MARKER)
+function toTextBlocks(content: MessageContent): TextBlock[] {
+	if (content === undefined) return [];
+	if (typeof content === "string") return [{ type: "text", text: content }];
+	return content;
+}
+
+function messageContainsBootstrap(message: MessageLike): boolean {
+	return toTextBlocks(message.content).some(
+		(block) =>
+			block.type === "text" &&
+			typeof block.text === "string" &&
+			block.text.includes(BOOTSTRAP_MARKER),
 	);
 }
 
-function firstNonCompactionSummaryIndex(messages: Array<{ content?: Array<{ type: string; text?: string }> }>): number {
+function firstNonCompactionSummaryIndex(messages: MessageLike[]): number {
 	for (let i = 0; i < messages.length; i++) {
-		const msg = messages[i];
-		const isCompaction = msg.content?.some(
-			(block) => block.type === "text" && block.text && block.text.includes("compaction")
+		const isCompaction = toTextBlocks(messages[i].content).some(
+			(block) =>
+				block.type === "text" &&
+				typeof block.text === "string" &&
+				block.text.includes("compaction"),
 		);
 		if (!isCompaction) return i;
 	}
-	return 0;
+	// All messages were compaction summaries (or there were none) — append
+	// after them rather than prepending before the summary context.
+	return messages.length;
 }
