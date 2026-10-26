@@ -4,6 +4,11 @@ from pathlib import Path
 
 BOOTSTRAP_MARKER = "agency-flow:using-agency-flow bootstrap for hermes"
 
+# Matches an optional YAML frontmatter block (group 1) followed by the body
+# (group 2). Tolerates CRLF line endings and files that end exactly at the
+# closing `---` without a trailing newline or body.
+_FRONTMATTER_RE = re.compile(r"^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$")
+
 
 def _skills_dir() -> str:
     """Locate the stock skills/ tree for either supported install layout.
@@ -32,12 +37,12 @@ def _skills_dir() -> str:
 
 
 def _strip_frontmatter(content: str) -> str:
-    match = re.match(r"^---\n[\s\S]*?\n---\n([\s\S]*)$", content)
-    return (match.group(1) if match else content).strip()
+    match = _FRONTMATTER_RE.match(content)
+    return (match.group(2) if match else content).strip()
 
 
 def _frontmatter_value(content: str, key: str) -> str:
-    match = re.match(r"^---\n([\s\S]*?)\n---\n", content)
+    match = _FRONTMATTER_RE.match(content)
     if not match:
         return ""
     for line in match.group(1).splitlines():
@@ -45,6 +50,38 @@ def _frontmatter_value(content: str, key: str) -> str:
         if sep and name.strip() == key:
             return value.strip().strip("\"'")
     return ""
+
+
+def _message_text(msg) -> str:
+    """Flatten a conversation message into plain text.
+
+    Accepts strings, dicts with `content`, and objects with a `.content`
+    attribute. `content` may itself be a string or a list of text blocks,
+    mirroring what OpenCode / Hermes hand to context hooks.
+    """
+    if isinstance(msg, str):
+        return msg
+    content = msg.get("content") if isinstance(msg, dict) else getattr(msg, "content", None)
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, dict):
+                text = block.get("text")
+            else:
+                text = getattr(block, "text", None)
+            if isinstance(text, str):
+                parts.append(text)
+        return "\n".join(parts)
+    return ""
+
+
+def _history_has_bootstrap(history) -> bool:
+    for msg in history or ():
+        if BOOTSTRAP_MARKER in _message_text(msg):
+            return True
+    return False
 
 
 def _build_bootstrap(skills_dir: str) -> str:
@@ -94,8 +131,10 @@ def register(ctx):
         platform=None,
         **kwargs,
     ):
-        if is_first_turn:
-            return {"context": bootstrap}
-        return None
+        if not is_first_turn:
+            return None
+        if _history_has_bootstrap(conversation_history):
+            return None
+        return {"context": bootstrap}
 
     ctx.register_hook("pre_llm_call", pre_llm_call)
