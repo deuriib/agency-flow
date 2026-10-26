@@ -24,6 +24,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Skills directory shared by V1 (config hook) and V2 (setup/ctx.skill.transform)
 const agencySkillsDir = path.resolve(__dirname, '../../skills');
 
+// Dedicated marker embedded in every bootstrap message so we can reliably
+// detect prior injections without matching incidental user text.
+const BOOTSTRAP_MARKER = 'agency-flow:using-agency-flow bootstrap';
+
 const extractAndStripFrontmatter = (content) => {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return { frontmatter: {}, content };
@@ -95,6 +99,8 @@ const getBootstrapContent = (toolMapping) => {
   const { content } = extractAndStripFrontmatter(fullContent);
 
   _bootstrapCache.set(toolMapping, `<EXTREMELY_IMPORTANT>
+${BOOTSTRAP_MARKER}
+
 You are operating under Agency-Flow.
 
 **IMPORTANT: The using-agency-flow skill content is included below. It is ALREADY LOADED - you are currently following it. Do NOT use the skill tool to load "using-agency-flow" again - that would be redundant.**
@@ -139,7 +145,7 @@ const isChildSession = async (fetchSession, sessionID) => {
       throw new Error('Session lookup returned an invalid session identity');
     }
     if (session.parentID !== undefined &&
-        (typeof session.parentID !== 'string' || session.parentID.length === 0)) {
+      (typeof session.parentID !== 'string' || session.parentID.length === 0)) {
       throw new Error('Session lookup returned an invalid parent identity');
     }
     isChild = Boolean(session?.parentID);
@@ -151,16 +157,39 @@ const isChildSession = async (fetchSession, sessionID) => {
   return isChild;
 };
 
+const textBlocksOf = (msg) => {
+  if (!msg) return [];
+  const content = msg.content;
+  if (typeof content === 'string') return [{ type: 'text', text: content }];
+  if (!Array.isArray(content)) return [];
+  return content;
+};
+
 const messageContainsBootstrap = (msg) => {
-  if (!msg || !Array.isArray(msg.content)) return false;
-  for (const block of msg.content) {
+  for (const block of textBlocksOf(msg)) {
     if (block && typeof block === 'object' && block.type === 'text' && typeof block.text === 'string') {
-      if (block.text.includes('Agency-Flow') || block.text.includes('using-agency-flow')) {
-        return true;
-      }
+      if (block.text.includes(BOOTSTRAP_MARKER)) return true;
     }
   }
   return false;
+};
+
+const isCompactionSummary = (msg) => {
+  for (const block of textBlocksOf(msg)) {
+    if (block && typeof block === 'object' && block.type === 'text' && typeof block.text === 'string') {
+      if (block.text.includes('compaction')) return true;
+    }
+  }
+  return false;
+};
+
+// Index at which to insert the bootstrap: after the leading run of compaction
+// summaries (so the model keeps the compacted context), or at the end if the
+// entire history is compaction summaries.
+const bootstrapInsertIndex = (messages) => {
+  let idx = 0;
+  while (idx < messages.length && isCompactionSummary(messages[idx])) idx++;
+  return idx;
 };
 
 // V1 plugin object
@@ -189,6 +218,8 @@ export const AgencyFlowPlugin = {
 
   hooks: {
     'experimental.chat.messages.transform': async ({ messages, sessionID, client }) => {
+      if (!Array.isArray(messages)) return;
+
       const fetchSession = client?.session?.get?.bind(client?.session) || client?.getSession?.bind(client);
       if (fetchSession && sessionID) {
         const child = await isChildSession(fetchSession, sessionID);
@@ -200,7 +231,8 @@ export const AgencyFlowPlugin = {
       const bootstrap = getBootstrapContent(V1_MAPPING);
       if (!bootstrap) return;
 
-      messages.unshift({
+      const insertAt = bootstrapInsertIndex(messages);
+      messages.splice(insertAt, 0, {
         role: 'user',
         content: [{ type: 'text', text: bootstrap }],
         timestamp: Date.now(),
@@ -248,29 +280,23 @@ export default {
         if (child) return;
       }
 
-      if (event.messages && event.messages.some(messageContainsBootstrap)) return;
+      const messages = Array.isArray(event?.messages) ? event.messages : [];
+      if (messages.some(messageContainsBootstrap)) return;
 
       const bootstrap = getBootstrapContent(V2_MAPPING);
       if (!bootstrap) return;
 
-      const bootstrapMessage = {
-        role: 'user',
-        content: [{ type: 'text', text: bootstrap }],
-        timestamp: Date.now(),
-      };
-
-      const messages = event.messages || [];
-      const insertAt = messages.findIndex((m) => {
-        if (!m || !Array.isArray(m.content)) return false;
-        return m.content.some((b) => b && b.type === 'text' && b.text && b.text.includes('compaction'));
-      });
-      const idx = insertAt !== -1 ? insertAt : 0;
+      const insertAt = bootstrapInsertIndex(messages);
 
       return {
         messages: [
-          ...messages.slice(0, idx),
-          bootstrapMessage,
-          ...messages.slice(idx),
+          ...messages.slice(0, insertAt),
+          {
+            role: 'user',
+            content: [{ type: 'text', text: bootstrap }],
+            timestamp: Date.now(),
+          },
+          ...messages.slice(insertAt),
         ],
       };
     });
