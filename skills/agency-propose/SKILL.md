@@ -1,50 +1,80 @@
 ---
 name: agency-propose
-description: Use when executing Phase 2 (PROPOSE) of Agency-Flow to establish technical/strategic approach, planned deliverables, risks, verification plan, and cross-domain dependencies with owners and dates.
+description: Second mandatory phase of Agency-Flow. Use when agency-frame has closed. Produces docs/agency-flow/<slug>/01-propose.md — approach with a rejected alternative, deliverables grouped by domain, risks with mitigations, verification plan per criterion, and cross-domain dependencies with owner + date. No artifact is produced here.
 ---
 
-# Agency Propose (Phase 2)
+# Agency-Flow — PROPOSE
 
-## Overview
+## Flow
 
-Propose outlines the architecture, strategy, and design direction required to achieve the FRAME criteria. It details planned deliverables per domain, risks, verification mapping, and cross-domain dependencies with explicit owners and due dates.
-
-**Announce at start:** "I am using the agency-propose skill to execute Phase 2: PROPOSE."
-
-## File Location
-`docs/agency-flow/<slug>/01-propose.md`
-
-## Required Structure
-
-```markdown
-# PROPOSE — <slug>
-
-## Approach
-<Architectural, strategic, or design approach overview>
-
-## Planned deliverables (grouped by domain)
-- <domain>: <deliverable description> — <how it satisfies a FRAME criterion>
-
-## Risks
-- <Risk and mitigation>
-
-## Verification plan
-- <criterion> — <how it will be verified, by which domain>
-
-## Cross-domain dependencies
-- <dependency description> — Owner: <agent> — Due: <date>
-
-## Assigned team
-- Domain: <agent(s)> — <why each>
-- Process steward: <PM agent> — <what was confirmed>
-
-## Gates
-- Domain gate: <agent> — PASS / PENDING
-- Process gate: <PM agent> — PASS / PENDING
+```
+previous: agency-frame — required
+next:     agency-build — required
 ```
 
-## Phase Checklist
-1. Ensure the approach, risks, and verification plan align with every domain declared in FRAME.
-2. Group planned deliverables by domain and tie each directly to a FRAME criterion.
-3. List every cross-domain dependency with a named owner and due date (managed by the PM process steward).
-4. Verify both gates (`Domain gate` and `Process gate`) are signed `PASS` before advancing to BUILD (`02-build.md`).
+## Purpose
+
+Decide **what will be produced, by whom, by when, and how it will be
+verified** before any artifact exists. PROPOSE is the plan that BUILD
+executes and VERIFY checks against.
+
+## What it does
+
+1. Reads `00-frame.md`. Extracts the goal, criteria, domain profile, and
+   constraints.
+2. Opens `docs/agency-flow/<slug>/01-propose.md`.
+3. Writes:
+   - **Approach** — 2–4 sentences plus one rejected alternative and why.
+   - **Planned deliverables**, grouped by domain, each naming the FRAME
+     criterion it supports.
+   - **Risks** — each with a mitigation and a severity.
+   - **Verification plan** — one row per FRAME criterion, naming the
+     domain that will verify it.
+   - **Cross-domain dependencies** — `<what> — Owner: <agent> — Due: <date>`
+     format. No exceptions.
+4. Fills `## Assigned team` and `## Gates`; signs or leaves `PENDING`.
+
+## Hard rules
+
+- Every FRAME criterion must appear under at least one planned
+  deliverable.
+- Every deliverable must name the criterion it supports.
+- Every cross-domain dependency must have an owner and a due date.
+  Malformed lines fail the process gate.
+- The approach must state a rejected alternative. A plan without a
+  rejected alternative is a restatement, not a decision.
+- Any scope change revealed by PROPOSE is recorded as `## Deviations from
+  FRAME` and FRAME is reopened — not absorbed silently.
+
+## Refusal conditions
+
+- No `00-frame.md` exists → refuse; hand back to `agency-frame`.
+- FRAME criteria cannot be satisfied by any deliverable → refuse; reopen
+  FRAME.
+- A dependency has no owner or no date → refuse; PROPOSE does not close.
+- No verification plan → refuse; VERIFY cannot function without one.
+
+## Output
+
+- `docs/agency-flow/<slug>/01-propose.md`, complete.
+- Both gates `PASS` (or `PENDING` with reasons).
+- A dependency plan with every row owning an agent and a date.
+
+## Handoff
+
+→ `agency-build` with: slug, the PROPOSE file path, and the
+deliverable list restated by domain.
+
+## References
+
+Load from `references/`:
+
+- `template.md` — **always**. Canonical shape of `01-propose.md`.
+- `checklist.md` — **always**. Gate checklist; run before signing either gate.
+- `dependency-format.md` — **always**. Cross-domain dependency lines are
+  grepped by the process steward; a malformed line fails the process gate.
+- `anti-patterns.md` — when deliverables do not map to criteria, or
+  dependencies lack owners.
+- `example-engineering.md` — when `Deliverable type` is `code` or `doc`.
+- `example-marketing.md` — when `Deliverable type` is `campaign`,
+  `content`, `design`, `launch`, or `research`.

@@ -1,55 +1,86 @@
 ---
 name: agency-ship
-description: Use when executing Phase 5 (SHIP) of Agency-Flow for delivery, documentation, tagging, release notes, changelog, and owning follow-ups carried from VERIFY.
+description: Fifth mandatory phase of Agency-Flow. Use when agency-verify has closed with PASS or PASS-WITH-CONDITIONS. Produces docs/agency-flow/<slug>/04-ship.md — user-facing release notes, version/tag, changelog, references to all four prior phases, and follow-ups carried from VERIFY. Domain gate is always N/A here; it was passed at VERIFY.
 ---
 
-# Agency Ship (Phase 5)
+# Agency-Flow — SHIP
 
-## Overview
+## Flow
 
-Ship is the delivery and release phase. It compiles user-facing release notes, version tags, changelogs, references to the verified artifacts, and ownership/due dates for any follow-up items carried over from VERIFY. 
-
-*Note:* Per the two-gate model, the **Domain gate is N/A in SHIP** because domain quality was certified in VERIFY. Only the process gate is signed here by the PM process steward.
-
-**Announce at start:** "I am using the agency-ship skill to execute Phase 5: SHIP."
-
-## File Location
-`docs/agency-flow/<slug>/04-ship.md`
-
-## Required Structure
-
-```markdown
-# SHIP — <slug>
-
-## Release notes (user-facing)
-- <User-facing summary of changes>
-
-## Version / tag
-- `<tag-name>` (e.g. `v1.0.0`)
-
-## Changelog
-- <Detailed changelog entries>
-
-## References
-- FRAME: `docs/agency-flow/<slug>/00-frame.md`
-- PROPOSE: `docs/agency-flow/<slug>/01-propose.md`
-- BUILD: `docs/agency-flow/<slug>/02-build.md`
-- VERIFY: `docs/agency-flow/<slug>/03-verify.md` (Verdict: PASS / PASS-WITH-CONDITIONS)
-
-## Follow-ups carried from VERIFY
-- <follow-up item> — Owner: <agent> — Due: <date>
-
-## Assigned team
-- Domain: <agent(s)> — <why each>
-- Process steward: <PM agent> — <what was confirmed>
-
-## Gates
-- Domain gate: N/A — passed at VERIFY
-- Process gate: <PM agent> — PASS / PENDING
+```
+previous: agency-verify — required
+next:     agency-measure  (if FRAME declared measure? yes)
+          none — this task is complete (if measure? no)
 ```
 
-## Phase Checklist
-1. Draft clear user-facing release notes and version tag.
-2. Compile the changelog and link all previous phase artifacts, explicitly referencing the VERIFY verdict.
-3. Assign owners and due dates to all follow-up items carried from VERIFY.
-4. Obtain the Process Gate signature from the PM process steward (`Domain gate: N/A`) before project completion (or advancing to MEASURE if declared).
+## Purpose
+
+Deliver the artifact. SHIP consumes an artifact already verified in
+VERIFY. Its job is publication, documentation, and closure — not quality
+judgment.
+
+## What it does
+
+1. Reads `03-verify.md`. Confirms the verdict is `PASS` or
+   `PASS-WITH-CONDITIONS`.
+2. Opens `docs/agency-flow/<slug>/04-ship.md`.
+3. Writes:
+   - **Release notes** in user-facing language (not dev jargon).
+   - **Version / tag** following the repo's convention.
+   - **Changelog** covering every artifact in `02-build.md`.
+   - **References** — all four prior phase files, with VERIFY's verdict
+     quoted exactly.
+   - **`## Follow-ups carried from VERIFY`** — every VERIFY condition,
+     with owner and due date.
+4. Fills `## Assigned team` and `## Gates` — the Gates block **must**
+   show `Domain gate: N/A — passed at VERIFY`.
+5. Signs only the process gate.
+
+## Hard rules
+
+- Domain gate in SHIP is always `N/A`. If a domain gate appears, VERIFY
+  did not close and SHIP is blocked.
+- VERIFY verdict is quoted exactly. `PASS-WITH-CONDITIONS` is never
+  paraphrased as `PASS`.
+- Every VERIFY condition is carried as a follow-up with owner and date.
+  Missing conditions block the process gate.
+- Changelog is a bijection with BUILD's `## Artifacts produced` (modulo
+  grouping). Missing or extra entries fail the process gate.
+- No new work is introduced in SHIP. New scope reopens FRAME or becomes a
+  MEASURE follow-up.
+
+## Refusal conditions
+
+- No `03-verify.md` exists → refuse; hand back to `agency-verify`.
+- VERIFY verdict is `FAIL` → refuse; SHIP cannot open.
+- A VERIFY condition has no owner or date → refuse; conditions must be
+  complete before SHIP closes.
+- Changelog does not match BUILD's artifacts → refuse; state the
+  mismatch.
+
+## Output
+
+- `docs/agency-flow/<slug>/04-ship.md`, complete.
+- Process gate `PASS` (or `PENDING` with reasons).
+- Follow-ups ready to be carried into MEASURE (if applicable) or into the
+  backlog.
+
+## Handoff
+
+- If FRAME declared `measure? yes` → `agency-measure` with: slug,
+  the SHIP file path, the follow-up list, and the measurement window.
+- If `measure? no` → task complete; report slug and closure.
+
+## References
+
+Load from `references/`:
+
+- `template.md` — **always**. Canonical shape of `04-ship.md`.
+- `checklist.md` — **always**. Process-gate-only checklist; there is no
+  domain gate in SHIP.
+- `anti-patterns.md` — when VERIFY conditions are missing from
+  `## Follow-ups carried from VERIFY`, or the VERIFY verdict is
+  paraphrased.
+- `example-engineering.md` — when `Deliverable type` is `code` or `doc`.
+- `example-marketing.md` — when `Deliverable type` is `campaign`,
+  `content`, `design`, `launch`, or `research`.

@@ -1,47 +1,78 @@
 ---
 name: agency-measure
-description: Use when executing Phase 6 (MEASURE) of Agency-Flow for collecting post-launch metrics, evaluating outcomes against FRAME criteria, gathering learnings, and ingesting follow-ups into the backlog.
+description: Optional final phase of Agency-Flow. Use when agency-ship has closed and FRAME declared measure? yes. Produces docs/agency-flow/<slug>/05-measure.md — metrics against targets, per-criterion outcome vs FRAME, learnings grounded in numbers, and follow-ups ingested into a backlog. Refuses to run if measure was not declared.
 ---
 
-# Agency Measure (Phase 6)
+# Agency-Flow — MEASURE
 
-## Overview
+## Flow
 
-Measure is an optional post-launch phase (must be declared `measure? yes` in FRAME before opening). It collects metrics, compares per-criterion outcomes against FRAME success criteria, extracts learnings, and ingests follow-up items into the backlog.
-
-**Announce at start:** "I am using the agency-measure skill to execute Phase 6: MEASURE."
-
-## File Location
-`docs/agency-flow/<slug>/05-measure.md`
-
-## Required Structure
-
-```markdown
-# MEASURE — <slug>
-
-## Metrics collected
-- <Metric / Data point>
-
-## Per-criterion outcome vs FRAME
-- <criterion> — Met / Partial / Missed — <analysis>
-
-## Learnings
-- <Key takeaway>
-
-## Follow-ups
-- <follow-up item> — Owner: <agent> — Ingested: yes/no
-
-## Assigned team
-- Domain: <agent(s)> — <why each>
-- Process steward: <PM agent> — <what was confirmed>
-
-## Gates
-- Domain gate: <agent> — PASS / PENDING
-- Process gate: <PM agent> — PASS / PENDING
+```
+previous: agency-ship — required
+next:     none — this task is complete
 ```
 
-## Phase Checklist
-1. Verify that `measure? yes` was declared in FRAME.
-2. Collect post-launch metrics and evaluate outcomes against every FRAME success criterion.
-3. Document key learnings and ingest follow-ups into the backlog (marked ingested yes/no with owners).
-4. Obtain signatures for both Domain Gate (domain expert/growth/product) and Process Gate (Project Management process steward).
+## Purpose
+
+Check whether the shipped artifact delivered what FRAME promised.
+MEASURE is the phase for honest retrospective — misses are reported as
+misses, not softened.
+
+## What it does
+
+1. Opens `docs/agency-flow/<slug>/05-measure.md`.
+2. Writes:
+   - **`## Metrics collected`** — every metric as
+     `<metric>: <value> (target <n> — <outcome>)`.
+   - **`## Per-criterion outcome vs FRAME`** — one row per FRAME
+     criterion, `observed / target → outcome`.
+   - **`## Learnings`** — each backed by a number from `Metrics
+     collected`.
+   - **`## Follow-ups`** — each with an owner and
+     `Ingested: yes | no`.
+3. Fills `## Assigned team` and `## Gates`; signs both or leaves
+   `PENDING`.
+
+## Hard rules
+
+- Every metric has a target. A number without a target is decoration.
+- Every learning cites a metric. "The campaign was well received" is not
+  a learning.
+- Every FRAME criterion appears in the outcome table. Including the ones
+  that missed.
+- Every follow-up has an owner and an `Ingested: yes | no` flag. `yes`
+  requires the backlog entry ID or link. `no` requires the reason.
+- Misses are reported as misses. MEASURE is not a marketing document.
+
+## Refusal conditions
+
+- FRAME did not declare `measure? yes` → refuse; state the missing
+  declaration and offer to close the task at SHIP.
+- A metric has no target → refuse.
+- A learning has no number behind it → refuse.
+- A follow-up has no owner → refuse.
+
+## Output
+
+- `docs/agency-flow/<slug>/05-measure.md`, complete.
+- Both gates `PASS` (or `PENDING` with reasons).
+- Every follow-up ingested into a backlog with an owner.
+
+## Handoff
+
+None. This skill closes the task. Report: slug, final outcome vs FRAME
+(met / missed / exceeded per criterion), and the ingested follow-up list.
+
+## References
+
+Load from `references/`:
+
+- `template.md` — **always**. Canonical shape of `05-measure.md`.
+- `checklist.md` — **always**. Two-gate checklist; both gates apply.
+- `anti-patterns.md` — when metrics lack targets, learnings lack numbers,
+  or follow-ups lack owners.
+- `example-marketing.md` — when `Deliverable type` is `campaign`,
+  `content`, `launch`, or any post-launch measurement project.
+
+If FRAME did not declare `measure? yes`, refuse to run this skill and
+state the missing declaration.

@@ -14,7 +14,7 @@ Use the existing V1 plugin configuration:
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+  "plugin": ["agency-flow@git+https://github.com/deuriib/agency-flow.git"]
 }
 ```
 
@@ -24,7 +24,7 @@ Use the V2 plugin configuration:
 
 ```json
 {
-  "plugins": ["superpowers@git+https://github.com/obra/superpowers.git"]
+  "plugins": ["agency-flow@git+https://github.com/deuriib/agency-flow.git"]
 }
 ```
 
@@ -36,24 +36,24 @@ Restart OpenCode. V2 uses the `opencode` command; `opencode2` may be available
 as an alias. The plugin installs through OpenCode's plugin manager and
 registers all skills.
 
-Verify by asking: "Tell me about your superpowers"
+Verify by asking: "Tell me about your agency-flow"
 
 OpenCode uses its own plugin install. If you also use Claude Code, Codex, or
 another harness, install Superpowers separately for each one.
 
 ## Migrating from the old symlink-based install
 
-If you previously installed superpowers using `git clone` and symlinks, remove the old setup:
+If you previously installed agency-flow using `git clone` and symlinks, remove the old setup:
 
 ```bash
 # Remove old symlinks
-rm -f ~/.config/opencode/plugins/superpowers.js
-rm -rf ~/.config/opencode/skills/superpowers
+rm -f ~/.config/opencode/plugins/agency-flow.js
+rm -rf ~/.config/opencode/skills/agency-flow
 
 # Optionally remove the cloned repo
-rm -rf ~/.config/opencode/superpowers
+rm -rf ~/.config/opencode/agency-flow
 
-# Remove skills.paths from opencode.json if you added one for superpowers
+# Remove skills.paths from opencode.json if you added one for agency-flow
 ```
 
 Then follow the installation steps above.
@@ -79,7 +79,7 @@ V1 `plugin` key and the V2 `plugins` key):
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git#v7.0.1"]
+  "plugin": ["agency-flow@git+https://github.com/deuriib/agency-flow.git#v7.0.1"]
 }
 ```
 
@@ -89,9 +89,9 @@ On V2, pin `v6.4.1` or later; `v6.3.0` and earlier releases load only on V1.
 
 ### Plugin not loading
 
-1. Check logs. V1: `opencode run --print-logs "hello" 2>&1 | grep -i superpowers`.
+1. Check logs. V1: `opencode run --print-logs "hello" 2>&1 | grep -i agency-flow`.
    V2 loads plugins in the background server, so add `--standalone`:
-   `opencode run --standalone --print-logs "hello" 2>&1 | grep -i superpowers`,
+   `opencode run --standalone --print-logs "hello" 2>&1 | grep -i agency-flow`,
    or inspect `~/.local/share/opencode/log/opencode.log` filtering for `role=server`.
 2. Verify the plugin line in your `opencode.json`
 3. Make sure you're running a recent version of OpenCode
@@ -105,7 +105,7 @@ the plugin, try installing with system npm and pointing OpenCode at the local
 package:
 
 ```powershell
-npm install superpowers@git+https://github.com/obra/superpowers.git --prefix "$HOME\.config\opencode"
+npm install agency-flow@git+https://github.com/deuriib/agency-flow.git --prefix "$HOME\.config\opencode"
 ```
 
 Then use the absolute path of the installed package in `opencode.json` for your
@@ -116,7 +116,7 @@ package name, not a local directory.
 
 ```json
 {
-  "plugin": ["C:\\Users\\<you>\\.config\\opencode\\node_modules\\superpowers"]
+  "plugin": ["C:\\Users\\<you>\\.config\\opencode\\node_modules\\agency-flow"]
 }
 ```
 
@@ -124,7 +124,7 @@ package name, not a local directory.
 
 ```json
 {
-  "plugins": ["C:\\Users\\<you>\\.config\\opencode\\node_modules\\superpowers"]
+  "plugins": ["C:\\Users\\<you>\\.config\\opencode\\node_modules\\agency-flow"]
 }
 ```
 
@@ -162,5 +162,5 @@ Skills speak in actions ("create a todo", "dispatch a subagent", "read a file").
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Full documentation: https://github.com/obra/superpowers/blob/main/docs/README.opencode.md
+- Report issues: <https://github.com/deuriib/agency-flow/issues>
+- Full documentation: <https://github.com/deuriib/agency-flow/blob/main/docs/README.opencode.md>
