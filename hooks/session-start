@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SessionStart hook for superpowers plugin
+# SessionStart hook for agency-flow plugin
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ case "$0" in
 esac
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# Read using-superpowers content via bash's builtin $(< file) instead of
+# Read using-agency-flow content via bash's builtin $(< file) instead of
 # cat, for the same PATH-independence reason.
 skill_md="${PLUGIN_ROOT}/skills/using-agency-flow/SKILL.md"
 if [ -r "$skill_md" ]; then
@@ -49,7 +49,7 @@ session_context="<EXTREMELY_IMPORTANT>\nYou are operating under Agency-Flow.\n\n
 # Muse sets MUSE_PLUGIN_ROOT and expects additionalContext (SDK standard).
 #
 # Uses printf instead of heredoc to work around bash 5.3+ heredoc hang.
-# See: https://github.com/obra/superpowers/issues/571
+# See: https://github.com/deuriib/agency-flow/issues/571
 #
 # emit_json pipes printf through `cat` when cat is on PATH, to absorb EPIPE
 # on Windows. On Windows + Git Bash, the harness can close the hook's stdout
