@@ -27,8 +27,15 @@ Then announce "Using [skill] to [purpose]" and follow the skill exactly. If it h
 
 When multiple skills apply, process skills come first — they set the approach, then implementation skills (frontend-design, etc.) carry it out. Brainstorming and systematic-debugging are Superpowers' most common process skills, but the rule holds for any of them.
 
-- "Let's build X" → superpowers:brainstorming first, then implementation skills.
-- "Fix this bug" → superpowers:systematic-debugging first, then domain skills.
+## Agency-Flow Core Principles
+
+1. **Sequential Phases:** One phase = one file under `docs/agency-flow/<slug>/`. No phase may be skipped. Optional phases (`research` and `measure`) must be declared explicitly in FRAME (`00-frame.md`).
+2. **Two-Gate Model:** Every phase requires two gates:
+   - **Domain gate:** Asks "Is the artifact good?" Signed by a competent domain agent (and never by the builder in VERIFY).
+   - **Process gate:** Asks "Was the phase done correctly?" Signed by a Project Management process steward.
+3. **Project Management as Process Steward:** PM participates in every phase in exactly one mode: process steward. PM never leads a domain, never signs a domain gate, and does not produce artifacts the project is judged on.
+4. **Verifier Independence:** In VERIFY (`03-verify.md`), the verifier must not be the agent that built the artifact.
+5. **Artifacts as Contract:** Roles are interchangeable; artifacts are the single source of truth.
 
 ## Red Flags
 
