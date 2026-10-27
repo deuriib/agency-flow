@@ -1,6 +1,6 @@
 {
   "name": "agency-flow",
-  "description": "Core skills library: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "7.0.1",
+"description": "Agency-Flow 5+2 sequential phase workflow and skills for agents",
+"version": "1.0.0",
   "contextFileName": "GEMINI.md"
 }
