@@ -1,49 +1,90 @@
 ---
 name: agency-verify
-description: Use when executing Phase 4 (VERIFY) of Agency-Flow for independent QA review, verifying results per criterion with evidence. The verifier must not be the builder.
+description: Fourth mandatory phase of Agency-Flow. Use when agency-build has closed. Produces docs/agency-flow/<slug>/03-verify.md — evidence per FRAME criterion, findings grouped by domain, and a two-line verdict (domain gate + process gate). The verifier must not be the builder; independence is checked before the file opens.
 ---
 
-# Agency Verify (Phase 4)
+# Agency-Flow — VERIFY
 
-## Overview
+## Flow
 
-Verify is the independent QA and review phase. An independent verifier (who must **not** be the agent that built the artifact) reviews each criterion against evidence, assigns a verdict (`PASS`, `PASS-WITH-CONDITIONS`, or `FAIL`), and records conditions for SHIP. The PM process steward verifies verifier independence and evidence completeness before signing the process gate.
-
-**Announce at start:** "I am using the agency-verify skill to execute Phase 4: VERIFY."
-
-## File Location
-`docs/agency-flow/<slug>/03-verify.md`
-
-## Required Structure
-
-```markdown
-# VERIFY — <slug>
-
-## Result per criterion
-- [ ] <criterion> — PASS/FAIL — <evidence description>
-
-## Findings (grouped by domain)
-- <domain>: <findings and observations>
-
-## Verdict
-- Domain gate: PASS / PASS-WITH-CONDITIONS / FAIL
-- Process gate: PASS / FAIL
-
-## Conditions (if applicable)
-- <condition description>
-
-## Assigned team
-- Domain verifier: <agent> — independent, no build involvement
-- Domain support: <agent(s)> — <why each>
-- Process steward: <PM agent> — <what was confirmed>
-
-## Gates
-- Domain gate: <agent> — PASS / PASS-WITH-CONDITIONS / FAIL
-- Process gate: <PM agent> — PASS / FAIL
+```
+previous: agency-build — required
+next:     agency-ship — required
 ```
 
-## Phase Checklist
-1. Confirm the domain verifier is completely independent (did not participate in BUILD for the artifact).
-2. Evaluate every FRAME criterion with concrete evidence.
-3. Record findings grouped by domain and any conditions for release.
-4. Obtain both Domain Gate (independent verifier) and Process Gate (PM process steward confirming independence and evidence) signatures before advancing to SHIP (`04-ship.md`).
+## Purpose
+
+Check every FRAME criterion against the BUILD artifacts, with evidence,
+by an agent who did not build them. VERIFY is the only phase where domain
+quality is judged.
+
+## What it does
+
+0. **Before opening the file**, runs the independence check
+   (`independence-check.md`): reads the BUILD log, extracts every agent
+   named, confirms the proposed verifier is not among them. If it is,
+   refuses to open VERIFY and assigns a different verifier.
+1. Opens `docs/agency-flow/<slug>/03-verify.md`.
+2. Writes:
+   - **`## Result per criterion`** — one row per FRAME criterion with
+     `PASS`/`FAIL` and concrete evidence (test name, screenshot path,
+     metric snapshot).
+   - **`## Findings`**, grouped by domain, each with a severity.
+   - **`## Verdict`** — two lines:
+     `Domain gate: <verdict>` and `Process gate: <verdict>`.
+   - **`## Conditions`** — if `PASS-WITH-CONDITIONS`, each with owner and
+     due date.
+3. Fills `## Assigned team` and `## Gates`.
+4. Signs both gates or leaves `PENDING` with the failure named.
+
+## Hard rules
+
+- The verifier must not appear in the BUILD log. This is checked before
+  anything else is written.
+- Every row has evidence. `PASS` without evidence is not a `PASS`.
+- A single `FAIL` row forces the domain-gate verdict to `FAIL`, even if
+  every other row is `PASS`.
+- Every condition under `PASS-WITH-CONDITIONS` has an owner and a due
+  date. A condition without both is not a condition.
+- Domain gate is never `N/A` in VERIFY. `N/A` here means VERIFY did not
+  happen.
+
+## Refusal conditions
+
+- Verifier equals the builder → refuse; reassign, then reopen VERIFY.
+- Any `PASS` without evidence → refuse; the row is not closed.
+- Verdict is `PASS` but a `FAIL` row exists → refuse; the verdict is
+  inconsistent.
+- `PASS-WITH-CONDITIONS` with an unowned condition → refuse.
+
+## Output
+
+- `docs/agency-flow/<slug>/03-verify.md`, complete.
+- Domain gate verdict: `PASS | PASS-WITH-CONDITIONS | FAIL`.
+- Process gate verdict: `PASS | FAIL`.
+- Conditions (if any) with owner and due date, ready to be carried into
+  SHIP.
+
+## Handoff
+
+→ `agency-ship` with: slug, the VERIFY file path, the verdict,
+and the exact list of conditions (each with owner + due date) that SHIP
+must carry as follow-ups.
+
+## References
+
+Load from `references/`:
+
+- `template.md` — **always**. Canonical shape of `03-verify.md`.
+- `checklist.md` — **always**. Two-gate checklist; the domain gate is not
+  optional here.
+- `independence-check.md` — **always, before opening the file**. Confirms
+  the verifier is not the builder.
+- `anti-patterns.md` — when every row says `PASS` with no evidence, or a
+  condition has no owner.
+- `example-engineering.md` — when `Deliverable type` is `code` or `doc`.
+- `example-marketing.md` — when `Deliverable type` is `campaign`,
+  `content`, `design`, `launch`, or `research`.
+
+If `independence-check.md` fails, refuse to open VERIFY. Do not sign a
+process gate over a self-verified artifact.

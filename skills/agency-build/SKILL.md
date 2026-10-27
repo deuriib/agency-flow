@@ -1,50 +1,82 @@
 ---
 name: agency-build
-description: Use when executing Phase 3 (BUILD) of Agency-Flow for production and implementation across domains, tracking every FRAME criterion in the log, recording deviations, and managing cross-domain handoffs.
+description: Third mandatory phase of Agency-Flow. Use when agency-propose has closed. Produces docs/agency-flow/<slug>/02-build.md — one log row per FRAME criterion with the artifact that satisfies it, deviations from PROPOSE, artifacts grouped by domain, and handoffs marked Done or Pending. Domain gate is always N/A here.
 ---
 
-# Agency Build (Phase 3)
+# Agency-Flow — BUILD
 
-## Overview
+## Flow
 
-Build is the production and implementation phase. Every FRAME criterion is tracked in a build log, artifacts are listed, deviations from PROPOSE are recorded, and handoffs are marked done. 
-
-*Note:* Per the two-gate model, the **Domain gate is N/A in BUILD** because domain quality is deferred to VERIFY. Only the process gate is signed here by the PM process steward.
-
-**Announce at start:** "I am using the agency-build skill to execute Phase 3: BUILD."
-
-## File Location
-`docs/agency-flow/<slug>/02-build.md`
-
-## Required Structure
-
-```markdown
-# BUILD — <slug>
-
-## Log (one row per FRAME criterion)
-- [x] <criterion> → <artifact / action that satisfies it>
-
-## Deviations from PROPOSE
-- <Description of any deviation and justification> (or "None")
-
-## Artifacts produced (grouped by domain)
-- <domain>: <artifact path or URL>
-
-## Cross-domain handoffs
-- <handoff description> — Done / Pending
-
-## Assigned team
-- Domain: <agent(s)> — <why each>
-- Process steward: <PM agent> — <what was confirmed>
-
-## Gates
-- Domain gate: N/A — deferred to VERIFY
-- Process gate: <PM agent> — PASS / PENDING
+```
+previous: agency-propose — required
+next:     agency-verify — required
 ```
 
-## Phase Checklist
-1. Track every FRAME criterion in the build log with its satisfying artifact or action.
-2. Record any deviations from PROPOSE with clear justifications.
-3. List all artifacts produced, grouped by domain.
-4. Mark cross-domain handoffs as Done or Pending.
-5. Obtain the Process Gate signature from the PM process steward (`Domain gate: N/A`) before advancing to VERIFY (`03-verify.md`).
+## Purpose
+
+Produce the artifacts PROPOSE approved. BUILD is production, not review.
+The domain gate is `N/A` by design — domain quality is verified in
+`agency-verify` by an independent agent.
+
+## What it does
+
+1. Reads `01-propose.md`. Extracts the deliverable list, verification
+   plan, and dependency graph.
+2. Opens `docs/agency-flow/<slug>/02-build.md`.
+3. Writes:
+   - **`## Log`** — one row per FRAME criterion, formatted as
+     `- [x] <criterion label> → <artifact path or URL>`.
+   - **`## Deviations from PROPOSE`** — one line per deviation with a
+     justification, or `None`.
+   - **`## Artifacts produced`**, grouped by domain.
+   - **`## Cross-domain handoffs`** — each marked `Done` or `Pending`.
+4. Fills `## Assigned team` and `## Gates` — the Gates block **must**
+   show `Domain gate: N/A — deferred to VERIFY`.
+5. Signs only the process gate.
+
+## Hard rules
+
+- Domain gate in BUILD is always `N/A`. A BUILD file with `Domain gate:
+  PASS` is malformed; refuse to sign.
+- Every FRAME criterion gets a log row. No exceptions, no `[~]`, no `[/]`
+  — only `[x]` or `[ ]`.
+- Every log row points to a concrete path or URL. "See PR" is not a
+  pointer.
+- Every deviation is recorded, not absorbed.
+- Every handoff is `Done` or `Pending`. No third state.
+
+## Refusal conditions
+
+- No `01-propose.md` exists → refuse; hand back to `agency-propose`.
+- A FRAME criterion has no log row → refuse; the file is not closeable.
+- A deviation is described as "minor" with no detail → refuse; state what
+  changed.
+- A new deliverable appears that PROPOSE did not list → refuse; record it
+  as a deviation or reopen PROPOSE.
+
+## Output
+
+- `docs/agency-flow/<slug>/02-build.md`, complete.
+- Process gate `PASS` (or `PENDING` with reasons).
+- All handoffs resolved.
+
+## Handoff
+
+→ `agency-verify` with: slug, the BUILD file path, and a list of
+every agent that produced an artifact (required for the independence
+check in VERIFY).
+
+## References
+
+Load from `references/`:
+
+- `template.md` — **always**. Canonical shape of `02-build.md`.
+- `checklist.md` — **always**. Process-gate-only checklist; there is no
+  domain gate in BUILD.
+- `criterion-log-format.md` — **always**. The `## Log` rows are grepped;
+  malformed rows fail the process gate.
+- `anti-patterns.md` — when the file feels complete but deviations are not
+  recorded.
+- `example-engineering.md` — when `Deliverable type` is `code` or `doc`.
+- `example-marketing.md` — when `Deliverable type` is `campaign`,
+  `content`, `design`, `launch`, or `research`.

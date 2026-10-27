@@ -1,67 +1,75 @@
 ---
 name: agency-workflow
-description: Use when initiating, managing, or progressing projects through Agency-Flow, the sequential 5+2 phase methodology featuring the two-gate model (domain gate + process gate) and Project Management process stewardship.
+description: Entry point for Agency-Flow. Use when the user asks to start a new task, project, or initiative that should follow the two-gate methodology. Captures the intent, decides whether RESEARCH applies, creates the task folder, and hands off to the correct next skill. Never writes a phase file.
 ---
 
-# Agency-Workflow
+# Agency-Flow (Entry)
 
-## Overview
+## Flow
 
-Agency-Flow is a sequential 5+2 phase methodology designed to take any intent to a reliable release across any `agency-agents` division. All project work lives in `docs/agency-flow/<slug>/`.
+```
+previous: none — this skill is the entry point
+next:     agency-research  (if research is needed)
+          agency-frame     (otherwise)
+```
 
-**Announce at start:** "I am using the agency-workflow skill to enforce the Agency-Flow methodology and gate structure."
+## Purpose
 
-## The Non-Negotiable Rules
+Turn a raw intent into a ready-to-frame task. This skill does not write
+phase files; it produces the folder, the slug, and the routing decision
+that the next skill depends on.
 
-1. **One slug per task** (kebab-case, unique).
-2. **One phase = one file.** No phase may be skipped. Optional phases (`research` and `measure`) must be explicitly declared "yes" or "no" in FRAME.
-3. **No advancing without completion.** Do not open or work on the next phase file until the previous phase file is complete and its gates are both `PASS`.
-4. **Capability + domain.** Every phase declares capability + domain, never a specific agent name directly in role definitions.
-5. **Multi-agent teams** per phase are allowed and encouraged.
-6. **Artifacts are the contract.** Roles are interchangeable; artifacts are what the project is judged on.
-7. **Required closing blocks.** Every phase file must end with `## Assigned team` and `## Gates`.
-8. **The Two-Gate Model:** Every phase requires two gates:
-   - **Domain gate:** Asks "Is the artifact good?" Signed by a competent agent in that phase's domain (and never by the builder in VERIFY).
-   - **Process gate:** Asks "Was the phase done correctly?" Signed by a Project Management process steward.
-   - Neither gate substitutes the other. Both must be `PASS` to advance.
-9. **Project Management as Process Steward:** Project Management participates in every phase in exactly one mode: process steward. PM never leads a domain, never signs a domain gate, and does not produce the artifacts the project is judged on (except in the PM-as-deliverable edge case where a different PM signs the process gate).
-10. **Verifier Independence:** In VERIFY, the verifier must not be the agent that built the artifact.
-11. **No skipping:** If the user asks to skip a phase, refuse and state the pending gate.
+## What it does
 
-## The Two-Gate Model Reference
+1. Asks the user for a **one-sentence intent** (what and why).
+2. If the answer is longer than one sentence, asks for compression.
+   Repeatedly, until it is one sentence.
+3. Derives a **kebab-case slug** (`2–5 words`, no dates, no names).
+4. Verifies the slug is unique against `docs/agency-flow/`. If taken,
+   appends `-v2`; never overwrites.
+5. Creates `docs/agency-flow/<slug>/` (empty).
+6. Makes a **routing decision**:
+   - *Research needed?* Default `no`. Set `yes` only if the FRAME goal
+     would otherwise rest on an assumption the team has not validated.
+   - *Measure needed?* Default `no`. Set `yes` only if post-launch
+     outcomes must be tracked against a metric.
+7. Records both decisions as provisional. FRAME will finalize them.
 
-| Gate | Question | Signed by |
-|---|---|---|
-| **Domain gate** | Is the artifact good? | A competent agent in that phase's domain (not the builder, in VERIFY) |
-| **Process gate** | Was the phase done correctly? | A Project Management agent (Process Steward) |
+## Hard rules
 
-### Per-Phase Applicability
-- **RESEARCH (Optional):** Domain gate + Process gate
-- **FRAME:** Domain gate + Process gate
-- **PROPOSE:** Domain gate + Process gate
-- **BUILD:** Process gate only (domain quality deferred to VERIFY)
-- **VERIFY:** Domain gate (independent verifier) + Process gate (PM confirms independence & evidence)
-- **SHIP:** Process gate only (domain quality confirmed at VERIFY)
-- **MEASURE (Optional):** Domain gate + Process gate
+- Do **not** pre-create phase files. An empty file creates a false gate.
+- Do **not** write `00-frame.md` from here. Hand off to `agency-frame`.
+- Do **not** accept a multi-sentence intent. The goal in FRAME must be a
+  single intent; capture it now.
+- Do **not** accept a slug with dates (`2026-04-15`), owners, or > 5 words.
 
-## Phase Sequence & Files
+## Refusal conditions
 
-`docs/agency-flow/<slug>/`
-├── `00-research.md` (optional — only if declared yes in FRAME)
-├── `00-frame.md`
-├── `01-propose.md`
-├── `02-build.md`
-├── `03-verify.md`
-├── `04-ship.md`
-└── `05-measure.md` (optional — only if declared yes in FRAME)
+- Intent is a list of tasks → refuse; ask for the single underlying goal.
+- Intent is domain-first ("build a landing page") with no *why* → refuse;
+  ask for the outcome.
+- Slug collides and user wants to overwrite → refuse; propose `-v2`.
 
-## Invoking Phase Skills
+## Output
 
-When progressing through the project, transition smoothly to the specific phase skills:
-- `agency-research` for Phase 0
-- `agency-frame` for Phase 1
-- `agency-propose` for Phase 2
-- `agency-build` for Phase 3
-- `agency-verify` for Phase 4
-- `agency-ship` for Phase 5
-- `agency-measure` for Phase 6
+- Folder: `docs/agency-flow/<slug>/` (empty).
+- Slug confirmed.
+- Routing decision: `research? yes|no`, `measure? yes|no`.
+- A one-paragraph task brief held in memory, to be persisted by FRAME.
+
+## Handoff
+
+- If `research? yes` → `agency-research` with: slug, intent, and
+  the provisional `research? yes`.
+- Otherwise → `agency-frame` with: slug, intent, and both
+  provisional flags.
+
+## References
+
+Load from `references/`:
+
+- `task-initialization.md` — **always**. Protocol for intent → slug → folder.
+- `domain-profile-decision.md` — **always**. Three questions that decide
+  the Domain profile.
+- `slug-conventions.md` — when the derived slug is not obviously unique or
+  is > 5 words.
