@@ -10,6 +10,7 @@
     "url": "https://github.com/deuriib/agency-flow.git"
   },
   "keywords": [
+    "pi-package",
     "agency-flow",
     "workflow",
     "process-steward",
@@ -17,6 +18,14 @@
     "governance"
   ],
   "pi": {
+    "extensions": [
+      "./.pi/extensions/agency-flow.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "omp": {
     "extensions": [
       "./.pi/extensions/agency-flow.ts"
     ],
