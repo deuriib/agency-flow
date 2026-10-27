@@ -1,4 +1,5 @@
 {
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "agency-flow",
   "displayName": "Agency-Flow",
   "version": "1.0.0",
@@ -8,7 +9,6 @@
     "Let's initiate a new project using Agency-Flow",
     "Help me frame a new feature or campaign"
   ],
-  "category": "Developer Tools",
   "keywords": [
     "agency-flow",
     "workflow",
