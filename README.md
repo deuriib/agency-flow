@@ -31,5 +31,7 @@ All work lives in `docs/agency-flow/<slug>/`:
 ## Credits & Acknowledgments
 Agency-Flow builds upon the robust runtime harness, skill distribution plugins, and architectural patterns pioneered by [superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
 
-## Author
-**Deuri Vasquez** (`deuriib`)
+![Repobeats analytics](https://repobeats.com/deuriib/agency-flow?theme=light&size=medium&period=30)
+
+## License
+MIT see [LICENSE](./LICENSE)
