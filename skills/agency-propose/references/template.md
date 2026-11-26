@@ -1,4 +1,13 @@
-# PROPOSE — <slug>
+---
+job_id: <job-id>
+phase: propose
+status: draft
+created_at: <ISO-8601>
+approved_by:
+approved_at:
+---
+
+# PROPOSE — <job-id>
 
 ## Approach
 
@@ -34,6 +43,13 @@
 
 - Domain gate: <agent> — PASS / PENDING
 - Process gate: <PM agent> — PASS / PENDING
+
+## Approval
+
+- Status: pending
+- Approver:
+- Date:
+- Notes:
 
 ```
 

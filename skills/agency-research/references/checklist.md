@@ -13,7 +13,7 @@ Verify each line before signing either gate. Reject if any fails.
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/00-research.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/00-research.md`.
 - [ ] `## Assigned team` names both a domain agent and a process steward.
 - [ ] `## Gates` block present with both lines.
 - [ ] No research question was added mid-phase (compare to FRAME-declared

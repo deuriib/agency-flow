@@ -1,6 +1,6 @@
 ---
 name: agency-verify
-description: Fourth mandatory phase of Agency-Flow. Use when agency-build has closed. Produces docs/agency-flow/<slug>/03-verify.md — evidence per FRAME criterion, findings grouped by domain, and a two-line verdict (domain gate + process gate). The verifier must not be the builder; independence is checked before the file opens.
+description: Fourth mandatory phase of Agency-Flow. Use when agency-build has closed. Produces docs/agency-flow/<job-id>/06-validation/verify-report.md — evidence per FRAME criterion, findings grouped by domain, and a two-line verdict (domain gate + process gate). The verifier must not be the builder; independence is checked before the file opens.
 ---
 
 # Agency-Flow — VERIFY
@@ -24,7 +24,7 @@ quality is judged.
    (`independence-check.md`): reads the BUILD log, extracts every agent
    named, confirms the proposed verifier is not among them. If it is,
    refuses to open VERIFY and assigns a different verifier.
-1. Opens `docs/agency-flow/<slug>/03-verify.md`.
+1. Opens `docs/agency-flow/<job-id>/06-validation/verify-report.md`.
 2. Writes:
    - **`## Result per criterion`** — one row per FRAME criterion with
      `PASS`/`FAIL` and concrete evidence (test name, screenshot path,
@@ -59,7 +59,8 @@ quality is judged.
 
 ## Output
 
-- `docs/agency-flow/<slug>/03-verify.md`, complete.
+- `docs/agency-flow/<job-id>/06-validation/verify-report.md`, complete.
+- Record the step with `flow step <job-id> --step verify --status done --evidence 06-validation/verify-report.md`.
 - Domain gate verdict: `PASS | PASS-WITH-CONDITIONS | FAIL`.
 - Process gate verdict: `PASS | FAIL`.
 - Conditions (if any) with owner and due date, ready to be carried into
@@ -75,7 +76,7 @@ must carry as follow-ups.
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `03-verify.md`.
+- `template.md` — **always**. Canonical shape of `06-validation/verify-report.md`.
 - `checklist.md` — **always**. Two-gate checklist; the domain gate is not
   optional here.
 - `independence-check.md` — **always, before opening the file**. Confirms

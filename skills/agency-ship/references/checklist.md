@@ -2,7 +2,7 @@
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/04-ship.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/05-deliverables/ship-notes.md`.
 - [ ] Release notes are written in user-facing language, not dev jargon.
 - [ ] Version / tag is present and follows the repo convention.
 - [ ] Changelog covers every artifact produced in BUILD.

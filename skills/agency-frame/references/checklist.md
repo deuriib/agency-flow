@@ -11,7 +11,7 @@
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/00-frame.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/00-intent.md`.
 - [ ] Domain profile declares producer domains only.
 - [ ] Deliverable type is one of the canonical values.
 - [ ] `research?` and `measure?` are explicit `yes`/`no` (not blank).

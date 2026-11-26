@@ -1,6 +1,6 @@
 ---
 name: agency-build
-description: Third mandatory phase of Agency-Flow. Use when agency-propose has closed. Produces docs/agency-flow/<slug>/02-build.md — one log row per FRAME criterion with the artifact that satisfies it, deviations from PROPOSE, artifacts grouped by domain, and handoffs marked Done or Pending. Domain gate is always N/A here.
+description: Third mandatory phase of Agency-Flow. Use when agency-propose has closed. Produces docs/agency-flow/<job-id>/03-artifacts/build-log.md — one log row per FRAME criterion with the artifact that satisfies it, deviations from PROPOSE, artifacts grouped by domain, and handoffs marked Done or Pending. Domain gate is always N/A here.
 ---
 
 # Agency-Flow — BUILD
@@ -20,9 +20,9 @@ The domain gate is `N/A` by design — domain quality is verified in
 
 ## What it does
 
-1. Reads `01-propose.md`. Extracts the deliverable list, verification
+1. Reads `01-proposal.md`. Extracts the deliverable list, verification
    plan, and dependency graph.
-2. Opens `docs/agency-flow/<slug>/02-build.md`.
+2. Opens `docs/agency-flow/<job-id>/03-artifacts/build-log.md`.
 3. Writes:
    - **`## Log`** — one row per FRAME criterion, formatted as
      `- [x] <criterion label> → <artifact path or URL>`.
@@ -47,7 +47,7 @@ The domain gate is `N/A` by design — domain quality is verified in
 
 ## Refusal conditions
 
-- No `01-propose.md` exists → refuse; hand back to `agency-propose`.
+- No `01-proposal.md` exists → refuse; hand back to `agency-propose`.
 - A FRAME criterion has no log row → refuse; the file is not closeable.
 - A deviation is described as "minor" with no detail → refuse; state what
   changed.
@@ -56,7 +56,8 @@ The domain gate is `N/A` by design — domain quality is verified in
 
 ## Output
 
-- `docs/agency-flow/<slug>/02-build.md`, complete.
+- `docs/agency-flow/<job-id>/03-artifacts/build-log.md`, complete.
+- Record the step with `flow step <job-id> --step build --status done --evidence 03-artifacts/build-log.md`.
 - Process gate `PASS` (or `PENDING` with reasons).
 - All handoffs resolved.
 
@@ -70,7 +71,7 @@ check in VERIFY).
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `02-build.md`.
+- `template.md` — **always**. Canonical shape of `03-artifacts/build-log.md`.
 - `checklist.md` — **always**. Process-gate-only checklist; there is no
   domain gate in BUILD.
 - `criterion-log-format.md` — **always**. The `## Log` rows are grepped;

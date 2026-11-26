@@ -1,4 +1,4 @@
-# VERIFY — <slug>
+# VERIFY — <job-id>
 
 ## Result per criterion
 

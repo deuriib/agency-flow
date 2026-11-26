@@ -6,10 +6,23 @@ core of the process steward's job.
 ## Before opening the next phase file
 
 1. **Verify the current phase file exists.**
-   `docs/agency-flow/<slug>/<NN-phase>.md` — if missing, the phase did
-   not happen.
+   Canonical artifact for the phase (see `docs/agency-flow/workspace-format.md`):
+   - Frame: `00-intent.md`
+   - Propose: `01-proposal.md`
+   - Build: `03-artifacts/build-log.md`
+   - Verify: `06-validation/verify-report.md`
+   - Ship: `05-deliverables/ship-notes.md`
+   - Measure: `07-measure.md`
+   - Research (optional): `00-research.md`
+   If missing, the phase did not happen.
 
-2. **Verify both applicable gates are `PASS`.**
+2. **For the PROPOSE → BUILD transition, verify human approval.**
+   `01-proposal.md` must carry `status: approved` with a non-empty
+   `approved_by`, and `flow resume <job-id>` must report a build step.
+   If the run is still `awaiting-approval`, refuse with "Human approval
+   required: run `flow approve <job-id> --by <name>`."
+
+3. **Verify both applicable gates are `PASS`.**
    - For phases with a domain gate: both lines present, both `PASS`.
    - For BUILD and SHIP: only the process gate line, `PASS`.
    - If any gate is `PENDING`, refuse to advance.

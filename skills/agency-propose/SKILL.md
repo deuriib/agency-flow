@@ -1,6 +1,6 @@
 ---
 name: agency-propose
-description: Second mandatory phase of Agency-Flow. Use when agency-frame has closed. Produces docs/agency-flow/<slug>/01-propose.md — approach with a rejected alternative, deliverables grouped by domain, risks with mitigations, verification plan per criterion, and cross-domain dependencies with owner + date. No artifact is produced here.
+description: Second mandatory phase of Agency-Flow. Use when agency-frame has closed. Produces docs/agency-flow/<job-id>/01-proposal.md — approach with a rejected alternative, deliverables grouped by domain, risks with mitigations, verification plan per criterion, and cross-domain dependencies with owner + date. No artifact is produced here.
 ---
 
 # Agency-Flow — PROPOSE
@@ -20,9 +20,9 @@ executes and VERIFY checks against.
 
 ## What it does
 
-1. Reads `00-frame.md`. Extracts the goal, criteria, domain profile, and
+1. Reads `00-intent.md`. Extracts the goal, criteria, domain profile, and
    constraints.
-2. Opens `docs/agency-flow/<slug>/01-propose.md`.
+2. Opens `docs/agency-flow/<job-id>/01-proposal.md`.
 3. Writes:
    - **Approach** — 2–4 sentences plus one rejected alternative and why.
    - **Planned deliverables**, grouped by domain, each naming the FRAME
@@ -48,28 +48,33 @@ executes and VERIFY checks against.
 
 ## Refusal conditions
 
-- No `00-frame.md` exists → refuse; hand back to `agency-frame`.
+- No `00-intent.md` exists → refuse; hand back to `agency-frame`.
 - FRAME criteria cannot be satisfied by any deliverable → refuse; reopen
   FRAME.
 - A dependency has no owner or no date → refuse; PROPOSE does not close.
 - No verification plan → refuse; VERIFY cannot function without one.
+- No `flow approve <job-id> --by <name>` by a named human → the run stays
+  `awaiting-approval`; PROPOSE is not closeable into BUILD.
 
 ## Output
 
-- `docs/agency-flow/<slug>/01-propose.md`, complete.
+- `docs/agency-flow/<job-id>/01-proposal.md`, complete.
 - Both gates `PASS` (or `PENDING` with reasons).
 - A dependency plan with every row owning an agent and a date.
+- The run remains `awaiting-approval`: a named human must run
+  `flow approve <job-id> --by "<name>"` before BUILD can start.
 
 ## Handoff
 
-→ `agency-build` with: slug, the PROPOSE file path, and the
+→ `agency-build` only after `flow resume <job-id>` reports a build step
+(the proposal is approved). Hand off slug, the PROPOSE file path, and the
 deliverable list restated by domain.
 
 ## References
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `01-propose.md`.
+- `template.md` — **always**. Canonical shape of `01-proposal.md`.
 - `checklist.md` — **always**. Gate checklist; run before signing either gate.
 - `dependency-format.md` — **always**. Cross-domain dependency lines are
   grepped by the process steward; a malformed line fails the process gate.

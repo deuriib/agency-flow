@@ -24,10 +24,10 @@ README updates. Zero paid media spend. Full asset package in `campaign/`,
 
 ## References
 
-- FRAME: `00-frame.md`
-- PROPOSE: `01-propose.md`
-- BUILD: `02-build.md`
-- VERIFY: `03-verify.md` (verdict: PASS-WITH-CONDITIONS)
+- FRAME: `00-intent.md`
+- PROPOSE: `01-proposal.md`
+- BUILD: `03-artifacts/build-log.md`
+- VERIFY: `06-validation/verify-report.md` (verdict: PASS-WITH-CONDITIONS)
 
 ## Follow-ups carried from VERIFY
 

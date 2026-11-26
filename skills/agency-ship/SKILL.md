@@ -1,6 +1,6 @@
 ---
 name: agency-ship
-description: Fifth mandatory phase of Agency-Flow. Use when agency-verify has closed with PASS or PASS-WITH-CONDITIONS. Produces docs/agency-flow/<slug>/04-ship.md — user-facing release notes, version/tag, changelog, references to all four prior phases, and follow-ups carried from VERIFY. Domain gate is always N/A here; it was passed at VERIFY.
+description: Fifth mandatory phase of Agency-Flow. Use when agency-verify has closed with PASS or PASS-WITH-CONDITIONS. Produces docs/agency-flow/<job-id>/05-deliverables/ship-notes.md — user-facing release notes, version/tag, changelog, references to all four prior phases, and follow-ups carried from VERIFY. Domain gate is always N/A here; it was passed at VERIFY.
 ---
 
 # Agency-Flow — SHIP
@@ -21,13 +21,13 @@ judgment.
 
 ## What it does
 
-1. Reads `03-verify.md`. Confirms the verdict is `PASS` or
+1. Reads `06-validation/verify-report.md`. Confirms the verdict is `PASS` or
    `PASS-WITH-CONDITIONS`.
-2. Opens `docs/agency-flow/<slug>/04-ship.md`.
+2. Opens `docs/agency-flow/<job-id>/05-deliverables/ship-notes.md`.
 3. Writes:
    - **Release notes** in user-facing language (not dev jargon).
    - **Version / tag** following the repo's convention.
-   - **Changelog** covering every artifact in `02-build.md`.
+   - **Changelog** covering every artifact in `03-artifacts/build-log.md`.
    - **References** — all four prior phase files, with VERIFY's verdict
      quoted exactly.
    - **`## Follow-ups carried from VERIFY`** — every VERIFY condition,
@@ -51,7 +51,7 @@ judgment.
 
 ## Refusal conditions
 
-- No `03-verify.md` exists → refuse; hand back to `agency-verify`.
+- No `06-validation/verify-report.md` exists → refuse; hand back to `agency-verify`.
 - VERIFY verdict is `FAIL` → refuse; SHIP cannot open.
 - A VERIFY condition has no owner or date → refuse; conditions must be
   complete before SHIP closes.
@@ -60,7 +60,8 @@ judgment.
 
 ## Output
 
-- `docs/agency-flow/<slug>/04-ship.md`, complete.
+- `docs/agency-flow/<job-id>/05-deliverables/ship-notes.md`, complete.
+- Record the step with `flow step <job-id> --step ship --status done --evidence 05-deliverables/ship-notes.md`.
 - Process gate `PASS` (or `PENDING` with reasons).
 - Follow-ups ready to be carried into MEASURE (if applicable) or into the
   backlog.
@@ -75,7 +76,7 @@ judgment.
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `04-ship.md`.
+- `template.md` — **always**. Canonical shape of `05-deliverables/ship-notes.md`.
 - `checklist.md` — **always**. Process-gate-only checklist; there is no
   domain gate in SHIP.
 - `anti-patterns.md` — when VERIFY conditions are missing from

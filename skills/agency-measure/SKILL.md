@@ -1,6 +1,6 @@
 ---
 name: agency-measure
-description: Optional final phase of Agency-Flow. Use when agency-ship has closed and FRAME declared measure? yes. Produces docs/agency-flow/<slug>/05-measure.md — metrics against targets, per-criterion outcome vs FRAME, learnings grounded in numbers, and follow-ups ingested into a backlog. Refuses to run if measure was not declared.
+description: Optional final phase of Agency-Flow. Use when agency-ship has closed and FRAME declared measure? yes. Produces docs/agency-flow/<job-id>/07-measure.md — metrics against targets, per-criterion outcome vs FRAME, learnings grounded in numbers, and follow-ups ingested into a backlog. Refuses to run if measure was not declared.
 ---
 
 # Agency-Flow — MEASURE
@@ -20,7 +20,7 @@ misses, not softened.
 
 ## What it does
 
-1. Opens `docs/agency-flow/<slug>/05-measure.md`.
+1. Opens `docs/agency-flow/<job-id>/07-measure.md`.
 2. Writes:
    - **`## Metrics collected`** — every metric as
      `<metric>: <value> (target <n> — <outcome>)`.
@@ -54,7 +54,8 @@ misses, not softened.
 
 ## Output
 
-- `docs/agency-flow/<slug>/05-measure.md`, complete.
+- `docs/agency-flow/<job-id>/07-measure.md`, complete.
+- Record the step with `flow step <job-id> --step measure --status done --evidence 07-measure.md`.
 - Both gates `PASS` (or `PENDING` with reasons).
 - Every follow-up ingested into a backlog with an owner.
 
@@ -67,7 +68,7 @@ None. This skill closes the task. Report: slug, final outcome vs FRAME
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `05-measure.md`.
+- `template.md` — **always**. Canonical shape of `07-measure.md`.
 - `checklist.md` — **always**. Two-gate checklist; both gates apply.
 - `anti-patterns.md` — when metrics lack targets, learnings lack numbers,
   or follow-ups lack owners.

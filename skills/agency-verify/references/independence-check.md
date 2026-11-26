@@ -5,14 +5,14 @@ verifier did not build the artifact.
 
 ## Procedure
 
-1. Open `02-build.md`.
+1. Open `03-artifacts/build-log.md`.
 2. Extract every agent listed under `## Assigned team` and any agent
    named in log rows.
 3. Extract the name of the proposed verifier.
 4. If the verifier appears in step 2, **refuse**. State which artifact
    the verifier built and reopen VERIFY with a different verifier.
 5. Write the confirmation in `## Assigned team`:
-   `Process steward: <PM agent> — confirms verifier did not build any artifact (checked against 02-build.md).`
+   `Process steward: <PM agent> — confirms verifier did not build any artifact (checked against 03-artifacts/build-log.md).`
 
 ## What counts as "the builder"
 

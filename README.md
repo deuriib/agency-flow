@@ -13,14 +13,30 @@ It is designed to be fully complementary with [agency-agents](https://github.com
 
 ## The 5+2 Phases
 
-All work lives in `docs/agency-flow/<slug>/`:
+All work lives in a standardized workspace under `docs/agency-flow/<job-id>/`:
 - **00 — Research** (Optional) — Discovery, questions, and cited sources.
-- **01 — Frame** — Goal, measurable success criteria, scope, and domain profile.
-- **02 — Propose** — Approach, deliverables, risks, and cross-domain dependencies with owners and dates.
-- **03 — Build** — Implementation log per criterion, artifacts, deviations, and handoffs (Domain gate: N/A).
-- **04 — Verify** — Independent QA review, verdict (`PASS` / `PASS-WITH-CONDITIONS` / `FAIL`), and evidence.
-- **05 — Ship** — Release notes, version tag, changelog, references, and follow-ups.
-- **06 — Measure** (Optional) — Post-launch metrics, outcome vs FRAME, learnings, and backlog ingestion.
+- **01 — Frame** (`00-intent.md`) — Goal, measurable success criteria, scope, and domain profile.
+- **02 — Propose** (`01-proposal.md`) — Approach, deliverables, risks, and cross-domain dependencies with owners and dates. Blocking human approval.
+- **03 — Build** (`03-artifacts/`, `02-specs/`, `04-tasks/`) — Implementation log per criterion, artifacts, deviations, and handoffs (Domain gate: N/A).
+- **04 — Verify** (`06-validation/verify-report.md`) — Independent QA review, verdict (`PASS` / `PASS-WITH-CONDITIONS` / `FAIL`), and evidence.
+- **05 — Ship** (`05-deliverables/ship-notes.md`) — Release notes, version tag, changelog, references, and follow-ups.
+- **06 — Measure** (`07-measure.md`, Optional) — Post-launch metrics, outcome vs FRAME, learnings, and backlog ingestion.
+
+Every artifact at the workspace root uses a two-digit prefix, and `workflow-state.md` records the DAG state so a run can resume after a failure. The full contract is in [`docs/agency-flow/workspace-format.md`](./docs/agency-flow/workspace-format.md).
+
+## Workspace Engine
+
+Agency-Flow ships a zero-dependency engine that creates and validates the workspace:
+
+```bash
+flow init issue-9 --intent "Adopt the standardized workspace."
+flow approve issue-9 --by "Your Name"   # unblocks the HITL gate
+flow resume issue-9                     # next DAG step, or the blocking reason
+flow step issue-9 --step build --status done --evidence 03-artifacts/build-log.md
+flow validate issue-9                   # layout, state, tasks, cycles
+```
+
+`flow resume` exits `3` while `01-proposal.md` is unapproved. Tasks live in `04-tasks/T-000.yaml` and are validated against a schema; a producer can never validate its own work.
 
 ## Getting Started
 

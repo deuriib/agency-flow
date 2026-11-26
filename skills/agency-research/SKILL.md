@@ -1,6 +1,6 @@
 ---
 name: agency-research
-description: Optional first phase of Agency-Flow. Use when agency-flow has routed a task to research (research? yes). Produces docs/agency-flow/<slug>/00-research.md with cited findings tied to FRAME criteria previews. Refuses to run if research was not declared.
+description: Optional first phase of Agency-Flow. Use when agency-flow has routed a task to research (research? yes). Produces docs/agency-flow/<job-id>/00-research.md with cited findings tied to FRAME criteria previews. Refuses to run if research was not declared.
 ---
 
 # Agency-Flow — RESEARCH
@@ -20,7 +20,7 @@ informs it.
 
 ## What it does
 
-1. Opens `docs/agency-flow/<slug>/00-research.md` (creates if missing).
+1. Opens `docs/agency-flow/<job-id>/00-research.md` (creates if missing).
 2. Writes 1–5 **research questions**, each specific and answerable.
 3. Collects **sources** for each question (URL, file path, interview ID
    — never "industry knowledge").
@@ -55,7 +55,8 @@ informs it.
 
 ## Output
 
-- `docs/agency-flow/<slug>/00-research.md`, complete.
+- `docs/agency-flow/<job-id>/00-research.md`, complete.
+- Record the step with `flow step <job-id> --step research --status done --evidence 00-research.md`.
 - Both gates `PASS` (or explicit `PENDING` with reasons).
 - A stated `## Findings → FRAME criteria` preview that FRAME will read.
 

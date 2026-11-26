@@ -11,10 +11,10 @@
 - test(security): add comprehensive unit and integration test suite for rate limiter
 
 ## References
-- FRAME: `docs/agency-flow/example-engineering-feature/00-frame.md`
-- PROPOSE: `docs/agency-flow/example-engineering-feature/01-propose.md`
-- BUILD: `docs/agency-flow/example-engineering-feature/02-build.md`
-- VERIFY: `docs/agency-flow/example-engineering-feature/03-verify.md` (Verdict: PASS)
+- FRAME: `docs/agency-flow/example-engineering-feature/00-intent.md`
+- PROPOSE: `docs/agency-flow/example-engineering-feature/01-proposal.md`
+- BUILD: `docs/agency-flow/example-engineering-feature/03-artifacts/build-log.md`
+- VERIFY: `docs/agency-flow/example-engineering-feature/06-validation/verify-report.md` (Verdict: PASS)
 
 ## Follow-ups carried from VERIFY
 - None.

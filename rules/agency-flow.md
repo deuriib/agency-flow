@@ -1,3 +1,9 @@
+---
+trigger: always_on
+description: "Use when the user starts, resumes, audits, or closes an Agency-Flow task, works under docs/agency-flow/, asks phase, gate, or methodology questions, or needs a gate signed, a wildcard resolved, or the PM edge case — even without naming Agency-Flow."
+globs:
+---
+
 # AGENCY-FLOW — Plugin Rules
 
 Always-on. Loaded at session start. These rules are active whether or not
@@ -59,8 +65,8 @@ to remember it.
 These eight rules are the core of the methodology. They override
 convenience, urgency, and any reasoning that tries to soften them.
 
-1. **Sequential phases.** One phase = one file under
-   `docs/agency-flow/<slug>/`. No phase may be skipped. Optional phases
+1. **Sequential phases.** One phase = one canonical artifact under
+   `docs/agency-flow/<job-id>/`. No phase may be skipped. Optional phases
    (`research`, `measure`) are declared explicitly in FRAME as `yes` or
    `no` — never left implicit.
 
@@ -99,21 +105,36 @@ convenience, urgency, and any reasoning that tries to soften them.
 
 ## File conventions
 
-**Paths.** All artifacts live under `docs/agency-flow/<slug>/`. Slugs are
-kebab-case, 2–5 words, unique, no dates, no owner names.
+**Paths.** All artifacts live under `docs/agency-flow/<job-id>/`. Job ids are
+kebab-case, 2–64 characters, unique, no dates, no owner names. The workspace
+root can be overridden with `AGENCY_FLOW_WORKSPACE_ROOT` or `flow --root`.
 
-**Phase files**, in order:
+**Workspace layout**, in order:
 
 ```
-docs/agency-flow/<slug>/
-├── 00-research.md     (optional — only if FRAME declares research? yes)
-├── 00-frame.md        (mandatory)
-├── 01-propose.md      (mandatory)
-├── 02-build.md        (mandatory)
-├── 03-verify.md       (mandatory)
-├── 04-ship.md         (mandatory)
-└── 05-measure.md      (optional — only if FRAME declares measure? yes)
+docs/agency-flow/<job-id>/
+├── workflow-state.md          (mandatory — DAG state, single source of truth)
+├── 00-intent.md               (mandatory — FRAME)
+├── 01-proposal.md             (mandatory — PROPOSE, human approval required)
+├── 02-specs/                  (mandatory directory)
+├── 03-artifacts/              (mandatory directory — BUILD log lives here)
+├── 04-tasks/                  (mandatory directory — one YAML file per task)
+├── 05-deliverables/           (mandatory directory — SHIP outputs)
+├── 06-validation/             (mandatory directory — VERIFY reports)
+├── 00-research.md             (optional — only if FRAME declares research? yes)
+└── 07-measure.md              (optional — only if FRAME declares measure? yes)
 ```
+
+Every artifact at the workspace root carries a two-digit prefix (`00-`,
+`01-`, ...). `workflow-state.md` is the only unprefixed root entry, because it
+is engine state rather than an artifact. The full contract — task schema,
+state format, CLI, migration mapping — is `docs/agency-flow/workspace-format.md`.
+
+**Engine.** `flow init` creates the workspace, `flow approve` records the named
+human approval of `01-proposal.md`, `flow step` records the state of any DAG step
+(status, owner, evidence, attempts), `flow resume` returns the next DAG step,
+and `flow validate` enforces this layout. Do not hand-edit `workflow-state.md`
+to fake progress; the file is a record, not a lever.
 
 **Every phase file ends with two blocks** in this exact shape:
 
@@ -194,6 +215,11 @@ reason in one line:
   with no named signer.
 - **Silently absorbing a deviation** — every deviation is written.
 - **Overwriting an existing slug** — append `-v2` or pick a new slug.
+- **Advancing past an unapproved `01-proposal.md`** — a named human must run
+  `flow approve <job-id> --by <name>` first.
+- **Creating an artifact without a two-digit prefix** at the workspace root.
+- **Hand-editing `workflow-state.md`** to claim a step passed without the
+  evidence its validator signed.
 - **Signature on behalf of another agent** — every signature names a real
   agent.
 

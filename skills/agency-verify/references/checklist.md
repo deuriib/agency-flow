@@ -2,7 +2,7 @@
 
 ## Pre-checks (before opening the file)
 
-- [ ] Read `02-build.md`. Note every agent listed there.
+- [ ] Read `03-artifacts/build-log.md`. Note every agent listed there.
 - [ ] Confirm the chosen verifier is not among them.
 - [ ] If the same agent appears, refuse to open VERIFY. Reassign.
 
@@ -18,7 +18,7 @@
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/03-verify.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/06-validation/verify-report.md`.
 - [ ] Verifier is not the builder (independence confirmed in writing).
 - [ ] `## Assigned team` names the independent verifier and the process
       steward.

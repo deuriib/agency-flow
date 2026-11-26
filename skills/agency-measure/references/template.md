@@ -1,4 +1,4 @@
-# MEASURE — <slug>
+# MEASURE — <job-id>
 
 ## Metrics collected
 
