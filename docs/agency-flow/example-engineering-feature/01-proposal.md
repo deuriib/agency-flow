@@ -1,3 +1,11 @@
+---
+job_id: example-engineering-feature
+phase: propose
+status: draft
+created_at: 2026-11-25T00:00:00.000Z
+approved_by:
+approved_at:
+---
 # PROPOSE — example-engineering-feature
 
 ## Approach
@@ -25,3 +33,10 @@ Implement Express/Fastify compatible middleware backed by Redis sorted sets (`ZS
 ## Gates
 - Domain gate: Security Engineer — PASS
 - Process gate: Senior Project Manager — PASS
+
+## Approval
+
+- Status: pending
+- Approver:
+- Date:
+- Notes:

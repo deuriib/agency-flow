@@ -19,12 +19,14 @@ Before opening a PR against this repo, you MUST:
 ## Verification & Test Commands
 
 - **OpenCode Plugin Tests:** `bash tests/opencode/run-tests.sh`
+- **Workspace Engine Tests:** `bash tests/workspace/run-tests.sh` (or `node --test tests/workspace/`)
 - **Shell Script Linting:** `bash scripts/lint-shell.sh` (or `bash scripts/lint-shell.sh --all`)
 - **Other Test Suites:** Check subdirectories under `tests/` for specific plugin test runners (e.g., `tests/antigravity/run-tests.sh`, `tests/claude-code/run-skill-tests.sh`).
 
 ## Key Architecture & Layout
 
-- **5+2 Phases & Artifacts:** `docs/agency-flow/<slug>/` (Research, Frame, Propose, Build, Verify, Ship, Measure).
+- **5+2 Phases & Artifacts:** `docs/agency-flow/<job-id>/` (Research, Frame, Propose, Build, Verify, Ship, Measure).
+- **Workspace Engine:** `src/workspace/` (layout, state, tasks, CLI) and `bin/flow.js`. Format contract in `docs/agency-flow/workspace-format.md`.
 - **Skills:** `skills/` (Modular agent skills including `using-agency-flow`, `agency-workflow`, etc.).
 - **Plugins & Extensions:** `.opencode/plugins/`, `.pi/`, `.codex-plugin/`, `.devin-plugin/`, `.cursor-plugin/`, `.muse-plugin/`.
 - **Hooks:** `hooks/` (Session start and environment hooks).

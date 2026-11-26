@@ -1,4 +1,4 @@
-# RESEARCH — <slug>
+# RESEARCH — <job-id>
 
 ## Research questions
 

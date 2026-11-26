@@ -10,13 +10,13 @@ Do not proceed until the user gives a one-sentence intent. If they give a
 paragraph, ask them to compress. If they give a domain-specific answer
 ("build a landing page"), ask for the *why* ("to drive signups from X").
 
-## Step 2 — Choose the slug
+## Step 2 — Choose the job id
 
-Kebab-case, unique, ≤ 5 words, no dates. Derive from the intent, not from
-the phase.
+Kebab-case, 2–64 characters, unique, no dates, no owner names. Derive it from
+the intent, not from the phase.
 
 Good: `api-rate-limiting-rollout`, `q2-developer-outreach`.
-Bad: `task-2026-04-15`, `frame-phase`, `new-project`.
+Bad: `task-2026-04-15`, `frame-phase`, `new-project`, `New_Project`.
 
 Check for collisions:
 
@@ -24,29 +24,34 @@ Check for collisions:
 ls docs/agency-flow/
 ```
 
-If the slug exists, append `-v2` (never overwrite).
+If the job id exists, append `-v2` (never overwrite). `flow init` refuses an
+existing directory, so a collision cannot silently clobber a workspace.
 
-## Step 3 — Create the folder
+## Step 3 — Create the workspace
 
 ```
-docs/agency-flow/<slug>/
+flow init <job-id> --intent "<one sentence>"
 ```
 
-Do not pre-create phase files. Each phase creates its own file when it
-runs. Empty files create false gates.
+The engine creates the canonical layout (`workflow-state.md`, `00-intent.md`,
+`01-proposal.md`, `02-specs/` … `06-validation/`) and leaves the run
+`awaiting-approval`. Do not create phase artifacts by hand; each phase fills
+its own artifact.
 
 ## Step 4 — Hand off to the FRAME skill
 
-The init skill does not write any phase file. It produces:
+The init skill does not write a phase artifact. It produces:
 
-- the slug,
-- the folder,
+- the job id,
+- the workspace,
 - a one-paragraph task brief that the FRAME skill will read.
 
 ## Exit criteria
 
-- `docs/agency-flow/<slug>/` exists and is empty.
-- The slug is unique.
+- `docs/agency-flow/<job-id>/` exists with `workflow-state.md` and the
+  canonical directories.
+- The workflow state is `awaiting-approval` at the `propose` phase.
+- The job id is unique.
 - The intent fits in one sentence.
 - The task brief is written (in memory, not on disk — FRAME will persist
-  it as the FRAME goal).
+  it as the goal in `00-intent.md`).

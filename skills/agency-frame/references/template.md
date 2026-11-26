@@ -1,4 +1,10 @@
-# FRAME — <slug>
+---
+job_id: <job-id>
+phase: intent
+created_at: <ISO-8601>
+---
+
+# FRAME — <job-id>
 
 ## Goal
 

@@ -31,7 +31,7 @@ If it has a checklist, create a todo per item.
 
 ## Skill Map
 
-Agency-Flow ships nine skills. Know them before routing.
+Agency-Flow ships ten skills. Know them before routing.
 
 | Skill | Purpose |
 |-------|---------|
@@ -56,7 +56,7 @@ Before responding, determine where you are.
 1. **No task folder exists** for the user's request → invoke
    `agency-flow`. It will handle slug derivation, collision, and the
    research/measure declaration.
-2. **Task folder exists** at `docs/agency-flow/<slug>/` → inspect the
+2. **Task folder exists** at `docs/agency-flow/<job-id>/` → inspect the
    latest phase file's `## Gates` block:
    - Both applicable gates `PASS` → the phase is closed. Invoke the next
      phase skill named in its `previous/next` flow block.
@@ -96,10 +96,10 @@ In Agency-Flow:
 
 ## Agency-Flow Core Principles
 
-1. **Sequential Phases.** One phase = one file under
-   `docs/agency-flow/<slug>/`. No phase may be skipped. Optional phases
+1. **Sequential Phases.** One phase = one canonical artifact under
+   `docs/agency-flow/<job-id>/`. No phase may be skipped. Optional phases
    (`research` and `measure`) must be declared explicitly in FRAME
-   (`00-frame.md`) as `yes` or `no` — never left implicit.
+   (`00-intent.md`) as `yes` or `no` — never left implicit.
 2. **Two-Gate Model.** Every phase requires two gates:
    - **Domain gate:** Asks "Is the artifact good?" Signed by a competent
      domain agent — and never by the builder in VERIFY.
@@ -110,11 +110,11 @@ In Agency-Flow:
    never signs a domain gate, and does not produce artifacts the project
    is judged on. The only exception is the PM-as-deliverable edge case,
    where the process gate must be signed by a **different** PM agent.
-4. **Verifier Independence.** In VERIFY (`03-verify.md`), the verifier
+4. **Verifier Independence.** In VERIFY (`06-validation/verify-report.md`), the verifier
    must not be the agent that built the artifact. This is checked by
-   `agency-steward` **before** the phase file opens.
+   `agency-steward` **before** the phase artifact opens.
 5. **Artifacts as Contract.** Roles are interchangeable; artifacts are
-   the single source of truth. If it is not in the phase file, it did
+   the single source of truth. If it is not in the artifact, it did
    not happen.
 6. **Explicit Flow Blocks.** Every skill declares `previous` and `next`
    at the top. Follow them. Do not invent jumps, do not reorder phases,
@@ -129,20 +129,30 @@ In Agency-Flow:
 
 ## Resuming a Task
 
-If `docs/agency-flow/<slug>/` already exists:
+If `docs/agency-flow/<job-id>/` already exists:
 
-1. List its files: `ls docs/agency-flow/<slug>/`.
-2. Read the latest phase file's `## Gates` block.
-3. **Both applicable gates `PASS`:**
+1. Run `flow resume <job-id>`.
+   - Exit `3`: `01-proposal.md` is unapproved. Stop and ask the named human
+     to run `flow approve <job-id> --by <name>`.
+   - Exit `1`: a step is blocked. Escalate; do not skip it.
+   - Exit `0`: it names the next step.
+2. Read `workflow-state.md` for the DAG position, attempt counts, and
+   checkpoints. The engine wrote it; do not hand-edit it.
+   - To advance or record a step, use `flow step <job-id> --step <name>
+     --status <status> --evidence <artifact>` (never hand-edit the state file).
+   - A `failed` status increments the attempt counter; the third failure
+     blocks the run and requires escalation.
+3. Read the latest phase artifact's `## Gates` block.
+4. **Both applicable gates `PASS`:**
    - If this is the last phase declared in FRAME, the task is closed —
      report the outcome and stop.
    - Otherwise, invoke the next phase skill from the `previous/next` flow
      block.
-4. **Any gate `PENDING`:**
+5. **Any gate `PENDING`:**
    - Invoke the phase skill for that phase.
    - Its `checklist.md` will name the exact failure.
-5. **Never reopen a closed phase.** Reopening requires explicit user
-   instruction and a written reason in the phase file. Silent reopening
+6. **Never reopen a closed phase.** Reopening requires explicit user
+   instruction and a written reason in the phase artifact. Silent reopening
    is a process-gate failure.
 
 ## Red Flags

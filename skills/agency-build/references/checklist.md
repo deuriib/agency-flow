@@ -2,7 +2,7 @@
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/02-build.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/03-artifacts/build-log.md`.
 - [ ] Every FRAME criterion has a log row.
 - [ ] Every log row points to a concrete artifact (path, URL, or named
       action).

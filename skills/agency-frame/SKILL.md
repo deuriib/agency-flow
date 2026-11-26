@@ -1,6 +1,6 @@
 ---
 name: agency-frame
-description: First mandatory phase of Agency-Flow. Use when agency-flow has routed a task here directly, or when agency-research has closed. Produces docs/agency-flow/<slug>/00-frame.md — goal, measurable criteria, scope, domain profile, and both gates. The single most important file in the methodology.
+description: First mandatory phase of Agency-Flow. Use when agency-flow has routed a task here directly, or when agency-research has closed. Produces docs/agency-flow/<job-id>/00-intent.md — goal, measurable criteria, scope, domain profile, and both gates. The single most important file in the methodology.
 ---
 
 # Agency-Flow — FRAME
@@ -23,7 +23,7 @@ contract that VERIFY will check against.
 
 1. Reads the intent and any research file produced by
    `agency-research`.
-2. Opens `docs/agency-flow/<slug>/00-frame.md`.
+2. Opens `docs/agency-flow/<job-id>/00-intent.md`.
 3. Writes:
    - **Goal** (1–3 sentences, single intent, outcome-shaped).
    - **Success criteria** (≥ 2, each with a number or verifiable state).
@@ -60,7 +60,7 @@ contract that VERIFY will check against.
 
 ## Output
 
-- `docs/agency-flow/<slug>/00-frame.md`, complete.
+- `docs/agency-flow/<job-id>/00-intent.md`, complete.
 - Both gates `PASS` (or `PENDING` with named failures).
 - A domain profile every downstream phase will read.
 
@@ -74,7 +74,7 @@ have to re-read the file to start).
 
 Load from `references/`:
 
-- `template.md` — **always**. Canonical shape of `00-frame.md`.
+- `template.md` — **always**. Canonical shape of `00-intent.md`.
 - `checklist.md` — **always**. Gate checklist; run before signing either gate.
 - `domain-profile-guide.md` — **always**. Decides the three fields
   downstream phases read.

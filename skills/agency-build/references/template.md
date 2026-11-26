@@ -1,4 +1,4 @@
-# BUILD — <slug>
+# BUILD — <job-id>
 
 ## Log (one row per FRAME criterion)
 

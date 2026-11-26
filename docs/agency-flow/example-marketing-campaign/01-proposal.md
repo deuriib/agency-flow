@@ -1,3 +1,11 @@
+---
+job_id: example-marketing-campaign
+phase: propose
+status: draft
+created_at: 2026-11-25T00:00:00.000Z
+approved_by:
+approved_at:
+---
 # PROPOSE — example-marketing-campaign
 
 ## Approach
@@ -26,3 +34,10 @@ Deploy a high-contrast landing page focusing on a 60-second time-to-value hook p
 ## Gates
 - Domain gate: Product Marketer — PASS
 - Process gate: Studio Producer — PASS
+
+## Approval
+
+- Status: pending
+- Approver:
+- Date:
+- Notes:

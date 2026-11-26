@@ -11,7 +11,7 @@
 
 ## Process gate (signed by PM)
 
-- [ ] File lives at `docs/agency-flow/<slug>/05-measure.md`.
+- [ ] File lives at `docs/agency-flow/<job-id>/07-measure.md`.
 - [ ] Every follow-up has an owner.
 - [ ] Every follow-up is marked `Ingested: yes` (into a backlog) or
       `Ingested: no` (with the reason).

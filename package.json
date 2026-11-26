@@ -4,6 +4,13 @@
   "description": "Agency-Flow 5+2 sequential phase workflow and skills for agents",
   "type": "module",
   "main": ".opencode/plugins/agency-flow.js",
+  "bin": {
+    "flow": "./bin/flow.js"
+  },
+  "scripts": {
+    "test": "node --test tests/workspace/",
+    "test:workspace": "node --test tests/workspace/"
+  },
   "author": "Deuri Vasquez <deuriib@gmail.com>",
   "repository": {
     "type": "git",
